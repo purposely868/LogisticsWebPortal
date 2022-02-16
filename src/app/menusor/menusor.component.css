@@ -1,0 +1,16 @@
+nav {
+  width: 1600px;
+  text-align: center;
+  margin-left: 160px;
+  color:white;
+  background-color: rgb(25, 99, 160);
+  
+}
+li {
+  font-weight: bold;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+a{
+  color: white;
+}

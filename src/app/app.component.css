@@ -1,0 +1,13 @@
+#content {
+  width: 1920px;
+  margin: auto;
+  background-color: lightgoldenrodyellow;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  height: 100vh;
+  margin-top: 0;
+}
+
+#cegnev {
+  text-align: center;
+}
