@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CegService } from '../ceg.service';
+import { CommonModule } from '@angular/common';
+import { CegModel } from '../models/ceg.model';
 
 @Component({
   selector: 'app-fooldallab',
@@ -6,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./fooldallab.component.css']
 })
 export class FooldallabComponent implements OnInit {
+  public cegek: CegModel[] = [];
 
-  constructor() { }
+
+  constructor(private cegszerviz: CegService) {
+    this.cegszerviz.getCegek().subscribe((adatok) => {
+      this.cegek = adatok;
+    });
+  }
 
   ngOnInit(): void {
   }
