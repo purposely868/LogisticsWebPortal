@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RegModel } from '../models/reg.model';
+import { RegistService } from '../regist.service';
 
 @Component({
   selector: 'app-admin',
@@ -7,7 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  public regist : RegModel[] = [];
+
+  constructor(private Registszerviz:RegistService) {
+    
+    this.Registszerviz.getRegist().subscribe(adatok => {
+      this.regist = adatok;
+    })
+   }
 
   ngOnInit(): void {
   }

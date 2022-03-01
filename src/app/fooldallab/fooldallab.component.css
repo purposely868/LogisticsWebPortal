@@ -2,10 +2,9 @@
   width: 1600px;
   height: 700px;
   margin-left: 160px;
-  
-
 }
-table,tr,td
-{
+table,
+tr,
+td {
   border: 1px solid;
 }

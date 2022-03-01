@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Cegek;
+use App\Http\Controllers\Regist;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,6 @@ use App\Http\Controllers\Cegek;
 */
 
 Route::get('/cegek', [Cegek::class,'getCegek']);
+Route::get('/regist', [Regist::class,'getRegist']);
+
 

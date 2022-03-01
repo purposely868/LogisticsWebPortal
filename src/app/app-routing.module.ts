@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { addSyntheticLeadingComment } from 'typescript';
 import { AdminComponent } from './admin/admin.component';
 import { AppComponent } from './app.component';
+import { CooperationComponent } from './cooperation/cooperation.component';
 import { FooldalComponent } from './fooldal/fooldal.component';
 import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   {
@@ -16,9 +18,19 @@ const routes: Routes = [
     component: AdminComponent,
   },
   {
+    path: 'Cooperation',
+    component: CooperationComponent,
+  },
+  {
+    path:'reg',
+    component:RegistrationComponent,
+  },
+  {
     path: '**',
     component: FooldalComponent,
-  }
+  },
+ 
+
 
 
 ];

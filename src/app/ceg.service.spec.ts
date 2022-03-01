@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { CegService } from './ceg.service';
 
 describe('CegService', () => {

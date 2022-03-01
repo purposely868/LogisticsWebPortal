@@ -1,0 +1,14 @@
+table,
+tr,
+td {
+  border: 1px black solid;
+  padding: 40px;
+  font-size: 25px;
+  margin-left: 350px;
+  text-align: center;
+}
+#cooperation {
+  width: 1600px;
+  height: 700px;
+  margin-left: 160px;
+}

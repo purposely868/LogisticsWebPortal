@@ -13,3 +13,4 @@ export class CegService {
     return this.http.get<CegModel[]>('http://127.0.0.1:8000/cegek');
   }
 }
+

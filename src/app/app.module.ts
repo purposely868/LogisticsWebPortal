@@ -10,6 +10,8 @@ import { FooldallabComponent } from './fooldallab/fooldallab.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CooperationComponent } from './cooperation/cooperation.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     FooldallabComponent,
     LoginComponent,
     AdminComponent,
+    CooperationComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
