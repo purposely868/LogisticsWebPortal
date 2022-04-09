@@ -1,0 +1,31 @@
+<p>child-column works!</p>
+
+
+<form #colForm="ngForm" (ngSubmit)="onSubmit(colForm)" class="colForm">
+    <Legend>Check here for Columns</Legend>
+
+    <br>
+    <label for="columnIn">Column Name:</label>
+    <input type="text" name="columnInput" id="columnIn" ngModel [disabled]="!globalModel.columnProps.columnChecked" [required]="globalModel.columnProps.columnChecked ? true : false">
+    <label for="columnSe">Select Options for columns Manipulation: </label>
+    <select name="columnSelection" id="columnSe" [(ngModel)]="globalModel.columnProps.columnMethod" [disabled]="!globalModel.columnProps.columnChecked" [required]="globalModel.columnProps.columnChecked ? true : false" #columnSe>
+        <option value="create">ColumnCreate</option>
+        <option value="delete">ColumnDelete</option>
+        <option value="check">ColumnCheck</option>
+        <option value="exists">ColumnCheck</option>
+    </select>
+    <label for="columnTy">Type of Column Data: </label>
+    <select name="columnType" id="columnTy" ngModel [disabled]="!globalModel.columnProps.columnChecked" [required]="globalModel.columnProps.columnChecked ? true : false">
+        <option value="VARCHAR">VARCHAR(size)</option>
+        <option value="INT">INT(size)</option>
+        <option value="FLOAT">FLOAT(p)</option>
+        <option value="DATE">DATE</option>
+        <option value="TIME">TIME(fsp)</option>
+    </select>
+    <br />
+    <label for="columnCh">Check here to insert or modify data</label>
+    <input type="checkbox" name="columnCheckbox" id="columnCh" ngModel [disabled]="!globalModel.columnProps.columnChecked" (click)="forwardData(checkdat.checked, colForm.form.valid, colForm)" #checkdat>
+
+    <button type="submit" [disabled]="!colForm.form.valid || checkdat.checked">Submit</button>
+</form>
+{{globalModel.columnProps.columnChecked}}

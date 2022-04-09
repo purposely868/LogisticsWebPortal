@@ -1,0 +1,28 @@
+<form #tblForm="ngForm" class="tblForm" (ngSubmit)="onSubmit(tblForm)">
+    <h3>Check below if you want to work with Tables</h3>
+    <div class="tbl">
+
+        <br>
+
+        <br>
+        <label for="tblIn">Table Name in selected Database:</label>
+        <input type="text" name="tblInput" id="tblIn" [(ngModel)]="globalModel.tblName" [disabled]="!globalModel.tblCheck" [required]="globalModel.tblCheck?true:false">
+
+        <label for="tblCre">Create Table</label>
+        <input type="radio" name="tbl1" id="tblCre" value="create" [(ngModel)]="globalModel.tableMethod" [required]="globalModel.tblCheck?true:false">
+
+        <label for="tblDel">Delete Table</label>
+        <input type="radio" name="tbl2" id="tblDel" value="delete" [(ngModel)]="globalModel.tableMethod">
+
+        <label for="tblChe">Check Table If Exists</label>
+        <input type="radio" name="tbl2" id="tblChe" value="check" [(ngModel)]="globalModel.tableMethod" [disabled]="!globalModel.tblCheck || globalModel.columnProps.columnChecked">
+
+        <label for="tblAdding">Check For Adding Columns</label>
+        <input type="radio" name="tbl1" id="tblAdding" value="exists" [(ngModel)]="globalModel.tableMethod" [disabled]="!globalModel.tblCheck">
+    </div>
+    <label for="columnCh">Check here to insert or modify column for provided Table</label>
+    <input type="checkbox" name="columnCheckbox" id="columnCh" ngModel (click)="tblTrigger(tblForm.form.valid, checkcol.checked)" [disabled]="!globalModel.tblCheck" #checkcol>
+    {{globalModel.tblCheck}}
+
+    <button type="submit" [disabled]="!tblForm.form.valid || globalModel.columnProps.columnChecked">Submit</button>
+</form>

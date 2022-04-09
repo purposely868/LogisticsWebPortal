@@ -1,0 +1,37 @@
+express1. Fő oldal és hozzá tartozó al oldalak dynamikusan viewing-enginekkel lesznek összerakva.
+2. lesznek angular alapú applikációi. (Egy oldalas applikáció)
+3. Express nodejs szerver.
+4. Kell egy MySQL adatbázis valamint egy MongoDB adatbázis
+
+Előkészítés.
+Angular.
+    1. ng new AngularApp --routing --style css
+    2. cd AngularApp
+    3. npm install => upp to date 900 packages
+    4. Some vulnerabilities. Fixing it later!!
+
+Nodejs Express.
+    npm init in NodeServer regular initialization. Creating a package.json
+    npm install express --save (save it as dependency for production.)
+    BUT we will use the Express application generator to generate a skeleton express app
+
+Express App Generator:
+    1. npx express-generator -v ejs --git => Express application generator (Node.js 8.2.0) -v:viewing engine with ejs + --git: for generating git ignore file. (.gitignore has pre defined files/folders. Our main ignore is node_modules)
+    2. npm install
+    3. writing in package.json a new script. "devstart": "SET DEBUG=nodeserver:* & nodemon"
+    4. npm run devstart
+
+If Copying from repository the package.json will have all the dependencies for development and production.
+
+Fast serve angular to create .angular folder and clear the default HTML from app.component.html BUT leave the router html tag.
+
+Now the MYSQL database setup for development.
+1. https://www.mysql.com/downloads/
+2. install and configure server for development.
+3. npm install mysql --save-dev
+4. trying to connect to the server with the legacy auth metode used by W3SCOOLS but there is an error so to resolve it.
+5. https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server?page=1&tab=votes#tab-top
+6. npm un mysql && npm i mysql2 OKÉ MŰKÖDIK!
+7. adatbázis létrehozása NodeJS-ben. Gomb segítségével.
+
+
