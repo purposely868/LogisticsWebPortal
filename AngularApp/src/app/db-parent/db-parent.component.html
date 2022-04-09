@@ -1,0 +1,19 @@
+<h2>Parent HUB</h2>
+
+<div class="wrapInputForms">
+    <app-child-dbs [(globalModel)]="collectiveResponseData" (dbsSubmit)="dbsSubmitHandle($event)"></app-child-dbs>
+
+    <app-child-tbl [(globalModel)]=" collectiveResponseData" (tblSubmit)="tblSubmitHandle($event)"></app-child-tbl>
+
+    <app-child-column [(globalModel)]=" collectiveResponseData" (colSubmit)="colSubmitHandle($event)">
+    </app-child-column>
+
+    <app-child-data [(globalModel)]="collectiveResponseData" (datSubmit)="datSubmitHandle($event)"></app-child-data>
+
+
+</div>
+<br />
+<button type=" reset">Reset child view below</button>
+<br />
+
+<app-db-child *ngIf="checkResponse !== false" [responseBool]="checkResponse"></app-db-child>

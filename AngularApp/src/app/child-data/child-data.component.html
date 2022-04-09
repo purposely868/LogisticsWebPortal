@@ -1,0 +1,19 @@
+<p>Later ================================</p>
+<p>child-data works!</p>
+
+<form #datForm="ngForm" (ngSubmit)="onSubmit(datForm)">
+
+    <label for="datIn">Data Inputs:</label>
+    <input type="text" name="datInput" id="datIn" [(ngModel)]="globalModel.dataProps.dataInsertion" required [disabled]="!datForm.form.valid && !globalModel.columnProps.columnChecked">
+
+    <label for="datCre">Create Data</label>
+    <input type="radio" name="dat" value="create" id="datCre" [(ngModel)]="globalModel.dataProps.dataMethod" required>
+
+    <label for="datDel">Delete Data</label>
+    <input type="radio" name="dat" value="delete" id="datDel" [(ngModel)]="globalModel.dataProps.dataMethod">
+
+    <label for="datChe">Check Data If Exists</label>
+    <input type="radio" name="dat" value="check" id="datChe" [(ngModel)]="globalModel.dataProps.dataMethod" [disabled]="!datForm.form.valid && !globalModel.columnProps.columnChecked">
+
+    <button type="submit" [disabled]="!datForm.form.valid || !globalModel.columnProps.columnChecked">Submit</button>
+</form>

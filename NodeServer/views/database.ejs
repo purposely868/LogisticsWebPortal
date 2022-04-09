@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="./javascripts/databaseFunc.js" defer></script>
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <p>Welcome to <%= title %>
+    </p>
+    <div id="main">
+        <label for="createDb"></label>
+        <input type="text" name="createDb" id="createDbIn">
+        <button id="createDbBtn">Create New Database</button>
+
+        <label for="deleteDd"></label>
+        <input type="text" name="deleteDb" id="deleteDbIn">
+        <button id="deleteDbBtn">Delete Database</button>
+    </div>
+
+</body>
+
+</html>
