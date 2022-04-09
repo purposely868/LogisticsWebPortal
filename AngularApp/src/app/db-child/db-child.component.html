@@ -1,9 +1,0 @@
-<div class="back">
-    <h3>Child for output</h3>
-    <p>{{serverColResponse.length}}</p>
-    <p *ngFor="let values of serverColResponse">{{values}}
-        {{serverColResponse.length}}
-        <span *ngIf="(serverColResponse.indexOf(values)+1) % 6 == 0" class="lastItem"></span>
-    </p>
-    <br />
-</div>
