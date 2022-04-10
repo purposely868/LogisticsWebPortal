@@ -65,4 +65,26 @@ UPDATE users
 SEt ? = ?, ? = ?
 WHERE ?;
 
-DELETE FROM users WHERE Username = ?
+DELETE FROM users WHERE Username = ?;
+
+-- Initialization data queries and validations
+
+-- Standard user validation info
+SHOW COLUMNS FROM users;
+
+-- information after registering a user or updateing one
+SELECT dlp.DepartmentName, dlp.PozLevel, dlp.PozitionName, dlp.PozitionDiscription, ar.AppName, ar.Rights
+FROM dep_lev_poz as dlp
+JOIN d_l_p_rights as dlpr
+ON dlp.D_L_P_ID = dlpr.D_L_P
+JOIN apprights as ar
+ON dlpr.AppRights = ar.Rights
+WHERE dlp.D_L_P_ID = 10;
+
+-- for validation possible DLPS numbers
+SELECT 	COUNT(D_L_P_ID) as NumberOfDLPs
+FROM dep_lev_poz as dlp;
+
+
+
+

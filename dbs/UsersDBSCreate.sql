@@ -31,16 +31,16 @@ CREATE TABLE apprights (
 );
 
 CREATE TABLE dep_lev_poz (
-	D_L_P_ID int AUTO_INCREMENT,
+	D_L_P_ID tinyint AUTO_INCREMENT,
     DepartmentName varchar(30) NOT NULL,
-    PozLevel int NOT NULL,
+    PozLevel tinyint NOT NULL,
     PozitionName varchar(30) NOT NULL,
     PozitionDiscription varchar(50) NOT NULL,
     PRIMARY KEY (D_L_P_ID)
 );
 
 CREATE TABLE d_l_p_rights (
-	D_L_P int,
+	D_L_P tinyint,
     AppRights varchar(50),
     CONSTRAINT PK_Poz_Rights PRIMARY KEY(D_L_P, AppRights),
     FOREIGN KEY(D_L_P) REFERENCES Dep_Lev_Poz(D_L_P_ID)  
@@ -53,16 +53,22 @@ CREATE TABLE d_l_p_rights (
 
 CREATE TABLE users (
 	Username varchar(10),
-    FirstN varchar(10) NOT NULL,
-    LastN varchar(10) NOT NULL,
-    Email varchar(20) NOT NULL,
-    Phone varchar(15) NOT NULL,
-    Password varchar(10) NOT NULL,
-    D_L_P int NOT NULL,
+    FirstN varchar(15) NOT NULL,
+    LastN varchar(15) NOT NULL,
+    Email varchar(30) NOT NULL UNIQUE,
+    Phone varchar(20),
+    Password varchar(20) NOT NULL,
+    D_L_P tinyint NOT NULL,
     PRIMARY KEY (Username),
     FOREIGN KEY(D_L_P) REFERENCES Dep_Lev_Poz(D_L_P_ID) 
     ON DELETE RESTRICT
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT MinL4_UserName_ CHECK (CHARACTER_LENGTH(Username)>=4),
+	CONSTRAINT MinL2_FirstN_ CHECK (CHARACTER_LENGTH(FirstN)>=2 ),
+	CONSTRAINT MinL2_LastN_ CHECK (CHARACTER_LENGTH(LastN)>=2),
+	CONSTRAINT MinL10_Email_ CHECK (CHARACTER_LENGTH(Email)>= 10),
+	CONSTRAINT MinL8_Phone_ CHECK (CHARACTER_LENGTH(Phone)>=8),
+	CONSTRAINT MinL8_Password_ CHECK (CHARACTER_LENGTH(Password)>=8)
 );
 
 /* Dummy data */
@@ -101,7 +107,8 @@ VALUES  (1, "Warehouse Administration", 1, "Input Admin", "In Side"),
 		(6, "Purschase", 3, "Head Of P Department", "Heads the Phur to the Fur"),
         (7, "IT Administration", 1, "User Administrator", "Uses the Trator"),
 		(8, "IT Administration", 2, "Team Leader IT", "Leads the User Trator"),
-		(9, "IT Administration", 3, "Head Of IT Department", "Heads to the Moon");
+		(9, "IT Administration", 3, "Head Of IT Department", "Heads to the Moon"),
+        (10, "IT Administration", 4, "Head Of Every Thing", "Boss");
 
 INSERT INTO d_l_p_rights(D_L_P, AppRights)
 VALUES  (1, "Read and Query Data in WS App"),
@@ -112,18 +119,22 @@ VALUES  (1, "Read and Query Data in WS App"),
 		(6, "Edit All Data in PG App"),
 		(7, "Read and Query The Data in UM App"),
 		(8, "Edit Basic Data in UM App"),
-		(9, "Edit All Data in UM App");
+		(9, "Edit All Data in UM App"),
+        (10, "Edit All Data in UM App"),
+        (10, "Edit All Data in PG App"),
+        (10, "Edit All Data in WS App");
 
 INSERT INTO users(Username, FirstN, LastN, Email, Phone, D_L_P, Password)
-VALUES  ("Bob1", "Charly", "Madison", "CM@gmail.com", "0630", 1,"asd1234"),
-		("Bob2", "Boby", "Viliams", "VB@gmail.com", "0630", 2, "asd1234"),
-		("Bob3", "Brian", "Josh", "BJ@gmail.com", "0630", 3, "asd1234"),
-		("Bob4", "Clara", "Jason", "CJ@gmail.com", "0630", 4, "asd1234"),
-		("Bob5", "Halloween", "Pumpkin", "HP@gmail.com", "0630", 5, "asd1234"),
-		("Bob6", "Cristhmas", "Santa", "CS@gmail.com", "0630", 6, "asd1234"),
-		("Bob7", "Veronika", "Versache", "VV@gmail.com", "0630", 7, "asd1234"),
-		("Bob8", "Bianka", "Jonatan", "BJ@gmail.com", "0630", 8, "asd1234"),
-		("Bob9", "Agnes", "Klaudia", "AK@gmail.com", "0630", 9, "asd1234");
+VALUES  ("Bob1", "Charly", "Madison", "CM@gmail.com", null, 1,"asd12345"),
+		("Bob2", "Boby", "Viliams", "VB@gmail.com", null, 2, "asd12345"),
+		("Bob3", "Brian", "Josh", "BJ@gmail.com", null, 3, "asd12345"),
+		("Bob4", "Clara", "Jason", "CJ@gmail.com", null, 4, "asd12345"),
+		("Bob5", "Halloween", "Pumpkin", "HP@gmail.com", "0630658972", 5, "asd12345"),
+		("Bob6", "Cristhmas", "Santa", "CS@gmail.com", "063063215", 6, "asd12345"),
+		("Bob7", "Veronika", "Versache", "VV@gmail.com", "063013987", 7, "asd12345"),
+		("Bob8", "Bianka", "Jonatan", "BJ2@gmail.com", "063036928", 8, "asd12345"),
+		("Bob9", "Agnes", "Klaudia", "AK@gmail.com", "063012368", 9, "asd12345"),
+        ("God19", "God", "Gedeon", "GG@gmail.com", "063012368", 10, "asd12345");
 
-DELETE FROM users WHERE Username = "Bob19";
+DELETE FROM users WHERE Username = "Boby29";
 
