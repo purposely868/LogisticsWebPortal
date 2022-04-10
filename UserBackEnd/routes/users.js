@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("mysql2/promise");
-// const { body } = require("express-validator");
+//const { body } = require("express-validator");
 
 // Routes
 router.get("/validation", (req, res, next) => {
@@ -153,7 +153,6 @@ async function userRegister(req, res, next) {
     )
     .then((resolve) => {
       return userInformation(req.body.D_L_P, req.body.Username, connection);
-      //res.json(userInformation(req.body.D_L_P, req.body.Username, connection));
     })
     .then((resolve) => res.json(resolve))
     .catch((err) => {
