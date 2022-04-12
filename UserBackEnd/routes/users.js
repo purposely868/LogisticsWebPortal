@@ -3,8 +3,10 @@ const router = express.Router();
 const mysql = require("mysql2/promise");
 //const { body } = require("express-validator");
 
+// This is for the user management app.
+
 // Routes
-router.get("/validation", (req, res, next) => {
+router.get("/frontvalidation", (req, res, next) => {
   frontValidation(req, res, next);
 });
 
@@ -38,9 +40,8 @@ router.get("/allappsrigths", (req, res, next) => {
 
 // Function Definitions:
 
-// O_SZ_P and apps and rights Information after reg and up about user
+// O_SZ_P and apps and rights Information after reg and up the user
 async function userInformation(d_l_p, username, connection) {
-  //This gives back information about O_SZ_P and related apps and rights to apps.
   //This gets requested after submitting the registration and updateing a user and if every thing went ok.
 
   // needs Username + OSZP
@@ -93,8 +94,10 @@ async function userInformation(d_l_p, username, connection) {
 
 // Some Validation Info for front end ===========
 async function frontValidation(req, res, next) {
-  // this some column information to the front end so there can be more possible validation at the front.
-  //Less validation on the back end only.
+  // Sends validation info so it can be more automatic and because all the validation is done front end
+
+  // All posszible OSZP, Field type, max characters or value, not null
+
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -102,28 +105,31 @@ async function frontValidation(req, res, next) {
     password: "1asxqklp546",
   });
 
+  const frontValidation = { userValid: [], oszpValid: 0, passwordValid: {} };
+
   const validationUsers = await connection.execute(`SHOW COLUMNS FROM users`);
 
   const allPosszibleOSZP =
     await connection.execute(`SELECT 	COUNT(D_L_P_ID) as NumberOfDLPs
   FROM dep_lev_poz as dlp`);
 
-  const userResult = [];
+  const validationPassword = await connection.execute(
+    `SELECT * FROM passwordrules`
+  );
 
   for (const iterator of validationUsers[0]) {
-    let temporary = {
+    frontValidation.userValid.push({
       field: iterator.Field,
       type: iterator.Type,
       null: iterator.Null,
-    };
-
-    userResult.push(temporary);
+    });
   }
 
-  userResult.push(allPosszibleOSZP[0][0]);
+  frontValidation.oszpValid = allPosszibleOSZP[0][0];
+  frontValidation.passwordValid = validationPassword[0][0];
 
-  console.log(validationUsers[0]);
-  res.json(userResult);
+  //console.log(frontValidation);
+  res.json(frontValidation);
 }
 
 // REGISTER =================
@@ -259,6 +265,7 @@ async function informations(req, res, next, target) {
 // Some sqlErrorHandling
 function sqlErrorHandle(err) {
   // This is used to handle certain sql errors. Minimum checks, uniqueness and existense
+  // Minimum length check is on the dbs-side
   if (err.errno == 3819) {
     let indexLast = err.sqlMessage.lastIndexOf("_");
     let indexFirst = err.sqlMessage.indexOf("_");

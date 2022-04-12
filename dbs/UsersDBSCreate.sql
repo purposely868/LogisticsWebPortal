@@ -71,6 +71,15 @@ CREATE TABLE users (
 	CONSTRAINT MinL8_Password_ CHECK (CHARACTER_LENGTH(Password)>=8)
 );
 
+CREATE TABLE passwordRules ( 
+	minLength tinyint NOT NULL, 
+    maxLength tinyint NOT NULL, 
+    minUppercase tinyint NOT NULL, 
+    minNumbers tinyint NOT NULL, 
+    minSymbols tinyint NOT NULL,
+    PRIMARY KEY(minLength, maxLength, minUppercase, minNumbers, minSymbols)
+);
+
 /* Dummy data */
 INSERT INTO app (AppName, Discription)
 VALUES  ("Warehouse Stock App", "This Application manages the warehouse stock"), 
@@ -135,6 +144,10 @@ VALUES  ("Bob1", "Charly", "Madison", "CM@gmail.com", null, 1,"asd12345"),
 		("Bob8", "Bianka", "Jonatan", "BJ2@gmail.com", "063036928", 8, "asd12345"),
 		("Bob9", "Agnes", "Klaudia", "AK@gmail.com", "063012368", 9, "asd12345"),
         ("God19", "God", "Gedeon", "GG@gmail.com", "063012368", 10, "asd12345");
+        
+
+INSERT INTO passwordRules(minLength, maxLength, minUppercase, minNumbers, minSymbols)
+VALUES (8, 20, 1, 1, 1);
 
 DELETE FROM users WHERE Username = "Boby29";
 

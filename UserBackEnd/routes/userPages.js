@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const mysql = require("mysql2/promise");
 
+// After login in and gets requested from the Angular app.
+
 router.post("/", function (req, res, next) {
   loginquery(req, res);
 });
@@ -41,13 +43,11 @@ async function loginquery(req, res) {
 
   console.log(oszp_id);
 
-  res.send(
-    JSON.stringify({
-      loginInfo: queryResultlogin[0],
-      appsInfo: queryResultapps[0],
-      userAppRights: queryResultapprights[0],
-    })
-  );
+  res.json({
+    loginInfo: queryResultlogin[0],
+    appsInfo: queryResultapps[0],
+    userAppRights: queryResultapprights[0],
+  });
 }
 
 module.exports = router;
