@@ -8,6 +8,7 @@ var userPages = require("./routes/userPages");
 var appsRouter = require("./routes/apps");
 var usersRouter = require("./routes/users");
 var loginPage = require("./routes/loginPage");
+var index = require("./routes/index");
 
 var app = express();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/", index);
 app.use("/userPages", userPages);
 app.use("/apps", appsRouter);
 app.use("/users", usersRouter);

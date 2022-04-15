@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("mysql2/promise");
-//const { body } = require("express-validator");
 
 // This is for the user management app.
 
@@ -20,6 +19,7 @@ router.put("/information", (req, res, next) => {
 
 router.put("/update", (req, res, next) => {
   userUpdate(req, res, next);
+  res.status;
 });
 
 router.delete("/delete", (req, res, next) => {
@@ -160,7 +160,10 @@ async function userRegister(req, res, next) {
     .then((resolve) => {
       return userInformation(req.body.D_L_P, req.body.Username, connection);
     })
-    .then((resolve) => res.json(resolve))
+    .then((resolve) => {
+      res.sendStatus(201);
+      res.json(resolve);
+    })
     .catch((err) => {
       res.send(sqlErrorHandle(err));
     });
@@ -197,8 +200,10 @@ function userUpdate(req, res, next) {
     if (err) {
       res.send(sqlErrorHandle(err));
     } else if (results.info.indexOf("0") != 14) {
-      res.send(sqlErrorHandle(new Error(`No user named ${req.body.Username}`)));
+      res.status(404);
+      res.send(sqlErrorHandle(new Error(`No user named ${req.body.username}`)));
     } else {
+      res.status(201);
       res.json(results);
     }
   });
@@ -217,10 +222,16 @@ function userDelete(req, res, next) {
 
   connection.execute(
     "DELETE FROM users WHERE Username = ?",
-    [req.body.Username],
+    [req.body.username],
     (err, results, fields) => {
       if (err) {
+        res.status(500);
         res.json(sqlErrorHandle(err));
+      } else if (results.affectedRows == 0) {
+        res.status(404);
+        res.send(
+          sqlErrorHandle(new Error(`No user named ${req.body.username}`))
+        );
       } else {
         res.json(results);
       }

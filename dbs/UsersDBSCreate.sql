@@ -77,10 +77,33 @@ CREATE TABLE passwordRules (
     minUppercase tinyint NOT NULL, 
     minNumbers tinyint NOT NULL, 
     minSymbols tinyint NOT NULL,
-    PRIMARY KEY(minLength, maxLength, minUppercase, minNumbers, minSymbols)
+    CONSTRAINT PK_password PRIMARY KEY(minLength, maxLength, minUppercase, minNumbers, minSymbols)
+);
+
+CREATE TABLE indexPageInfo (
+	indexID tinyint AUTO_INCREMENT,
+	sliderImagesName varchar(50) NOT NULL,
+    newsImagesName varchar(50) NOT NULL,
+    newsParagraphsName varchar(50) NOT NULL,
+    newsImagesAttributions varchar(255) NOT NULL,
+    infoImageName varchar(20) NOT NULL,
+    infoParagraphName varchar(20) NOT NULL,
+    infoAttributions varchar(255) NOT NULL,
+    PRIMARY KEY(indexID)
 );
 
 /* Dummy data */
+
+INSERT INTO indexpageinfo (sliderImagesName, newsImagesName, newsParagraphsName, newsImagesAttributions, infoImageName, infoParagraphName, infoAttributions)
+VALUES ("sImage1;sImage2;sImage3",
+		"nImage1;nImage2,nImage3", 
+		"nParagraph1;nParagraph2;nParagraph3",
+        "google-maps;google maps icons;Google maps;manshagraphic,
+        chat-bubbles;chat bubbles icon;Chat bubbles;manshagraphics,
+        search;search icons;Search icons;Freepik",
+        "infoImage",
+        "infoParagraph", "sushi;sushi icons;Sushi icons;Freepik");
+
 INSERT INTO app (AppName, Discription)
 VALUES  ("Warehouse Stock App", "This Application manages the warehouse stock"), 
 		("Purschase Goods App", "This Application manages the shipments"),

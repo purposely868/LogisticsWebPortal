@@ -85,6 +85,9 @@ WHERE dlp.D_L_P_ID = 10;
 SELECT 	COUNT(D_L_P_ID) as NumberOfDLPs
 FROM dep_lev_poz as dlp;
 
+-- OSZP meanings and possibilities
+SELECT *
+FROM dep_lev_poz;
 
 
 
