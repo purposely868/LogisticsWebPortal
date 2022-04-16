@@ -1,0 +1,68 @@
+header {
+  grid-column: 2/16;
+
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.companyName {
+  grid-column: 8 / 10;
+  grid-row: 1;
+}
+
+.companyLogo {
+  grid-column: 7 / 10;
+  grid-row: 2;
+}
+
+.companyLogo > img {
+  display: inline-block;
+  margin: 0px 50%;
+}
+
+.companyLogo > a {
+  display: block;
+  font-style: italic;
+  color: rgb(158, 200, 202);
+  font-size: 10px;
+}
+
+.mainNav {
+  grid-column: 2 / 16;
+  grid-row: 3;
+  background-color: rgb(162, 185, 201);
+  height: 2rem;
+}
+
+.mainNav > li {
+  display: inline-block;
+  margin-left: 20px;
+  font-weight: bold;
+  height: inherit;
+}
+
+.mainNav > .legalInfo {
+  position: relative;
+}
+
+.legalNav {
+  position: absolute;
+  display: none;
+  z-index: 0;
+}
+
+.legalInfo:hover .legalNav {
+  display: block;
+  background-color: #00b7ff;
+  z-index: 10;
+}
+
+.legalNav > li {
+  margin: 2px 0px;
+  width: max-content;
+}
+
+.legalNav > li:hover {
+  background-color: aliceblue;
+}

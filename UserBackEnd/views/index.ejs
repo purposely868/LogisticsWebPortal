@@ -7,35 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="stylesheets/globalStyles.css">
+    <link rel="stylesheet" href="stylesheets/header.css">
     <link rel="stylesheet" href="stylesheets/indexStyles.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
+
     <script src="javascripts/frontEvents.js" defer></script>
+
     <title>Document</title>
 </head>
 
 <body>
-    <div class="contanierGrid">
-        <header>
-            <h1 class="companyName">XY Company</h1>
-            <div class="companyLogo">
-                <img src="images/google-earth.png" alt="Company Logo" width="50px" height="50px">
-                <a href="https://www.flaticon.com/free-icons/google-earth" title="google earth icons">Google earth icons created by Freepik - Flaticon</a>
-            </div>
-
-            <nav class="mainNav">
-                <li><a href="#">House Icon Index</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact us</a></li>
-                <li class="legalInfo"> <a href="#">Legal Info</a>
-                    <ul class="legalNav">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Cookie Guidelines</a></li>
-                        <li><a href="#">Impressum</a></li>
-                    </ul>
-
-                </li>
-                <li><a href="#">Company Login</a></li>
-            </nav>
-        </header>
+    <%- include("header") %>
         <main>
             <h1>Welcome To Here</h1>
             <section class="slider_container">
@@ -110,15 +92,7 @@
 
             </section>
         </main>
-    </div>
-
-
-    <footer>
-        <a href="#">Icon</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Cookie Guidelines</a>
-        <a href="#">Impressum</a>
-    </footer>
+        <%- include("footer") %>
 
 </body>
 

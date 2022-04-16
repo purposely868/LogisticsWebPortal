@@ -1,0 +1,183 @@
+main {
+  grid-column: 2/16;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: max-content max-content 50px max-content 50px;
+}
+
+/* || main styles start */
+
+main > h1 {
+  grid-column: 2 / 12;
+  grid-row: 1 / 2;
+  margin: auto auto;
+}
+
+.slider_container {
+  position: relative;
+  grid-column: 2 / 8;
+  grid-row: 2 / 3;
+}
+
+.info_login {
+  grid-column: 9 / 12;
+  grid-row: 2 / 3;
+}
+
+.submenus_content {
+  grid-column: 2 / 12;
+  grid-row: 4 / 5;
+}
+
+/* || Slider styling start */
+
+.slider_img {
+  height: 300px;
+  width: 400px;
+  position: relative;
+  margin-left: 2rem;
+}
+
+.slider_img > img {
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  width: 400px;
+  height: 300px;
+}
+
+.slider_btns {
+  display: inline-block;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+}
+
+.slider_btns > span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: brown;
+  border: 3px solid burlywood;
+  border-radius: 50%;
+  margin: 5px 5px;
+}
+
+.slider_btns > span:hover {
+  cursor: pointer;
+  background-color: chocolate;
+}
+
+/* Slider styling end */
+
+/* || Articles styling start */
+
+.submenus_content {
+  background-color: aquamarine;
+}
+
+.submenu {
+  padding-left: 0;
+  margin: 0;
+  height: 3rem;
+  width: 80%;
+  background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+}
+
+.submenu li {
+  padding: 0px 10px;
+  display: inline-flex;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  width: max-content;
+  height: 100%;
+  align-items: center;
+}
+
+.submenu li:hover {
+  cursor: pointer;
+  background-color: azure;
+}
+
+.article_container {
+  position: relative;
+  background-color: aliceblue;
+  height: 15rem;
+}
+
+.article_container > article {
+  position: absolute;
+  background-color: aliceblue;
+  height: 100%;
+  width: 100%;
+}
+
+.article_container > article > div {
+  padding-left: 20px;
+}
+
+.news {
+  position: absolute;
+  background-color: aliceblue;
+  display: flex;
+  height: inherit;
+}
+
+.newsText {
+  width: 60%;
+}
+
+.newsImage {
+  width: 40%;
+}
+
+/* || News Styles start*/
+.newsBtns {
+  position: absolute;
+  display: inline-block;
+  bottom: 10px;
+  left: 50%;
+}
+
+.newsBtns > span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: brown;
+  border: 3px solid burlywood;
+  border-radius: 50%;
+  margin: 5px 5px;
+}
+
+.newsBtns > span:hover {
+  cursor: pointer;
+  background-color: chocolate;
+}
+/* News Styles end */
+/* Articles styling end */
+
+/* || Clicking Styles in submenu*/
+
+.visible10 {
+  z-index: 10;
+}
+
+.visible15 {
+  z-index: 15;
+}
+
+.visible20 {
+  z-index: 20;
+}
+
+.visible30 {
+  z-index: 30;
+}
+
+/* || Clicking Styles in submenu end */
+/* main styles end */
