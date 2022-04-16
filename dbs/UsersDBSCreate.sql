@@ -83,26 +83,28 @@ CREATE TABLE passwordRules (
 CREATE TABLE indexPageInfo (
 	indexID tinyint AUTO_INCREMENT,
 	sliderImagesName varchar(50) NOT NULL,
-    newsImagesName varchar(50) NOT NULL,
-    newsParagraphsName varchar(50) NOT NULL,
-    newsImagesAttributions varchar(255) NOT NULL,
     infoImageName varchar(20) NOT NULL,
     infoParagraphName varchar(20) NOT NULL,
     infoAttributions varchar(255) NOT NULL,
+    newsTitles varchar(20) NOT NULL,
+    newsParagraphsName varchar(50) NOT NULL,
+    newsImagesName varchar(50) NOT NULL,
+    newsImagesAttributions varchar(255) NOT NULL,
     PRIMARY KEY(indexID)
 );
 
 /* Dummy data */
 
-INSERT INTO indexpageinfo (sliderImagesName, newsImagesName, newsParagraphsName, newsImagesAttributions, infoImageName, infoParagraphName, infoAttributions)
-VALUES ("sImage1;sImage2;sImage3",
-		"nImage1;nImage2,nImage3", 
-		"nParagraph1;nParagraph2;nParagraph3",
-        "google-maps;google maps icons;Google maps;manshagraphic,
-        chat-bubbles;chat bubbles icon;Chat bubbles;manshagraphics,
-        search;search icons;Search icons;Freepik",
-        "infoImage",
-        "infoParagraph", "sushi;sushi icons;Sushi icons;Freepik");
+INSERT INTO indexpageinfo (sliderImagesName, infoImageName, infoParagraphName, infoAttributions, newsTitles ,newsParagraphsName, newsImagesName, newsImagesAttributions)
+VALUES ("sImage1.jpg;sImage2.jpg;sImage3.jpg", 
+		"infoImage.png",
+        "infoParagraph.txt", 
+        "sushi;sushi icons;Sushi icons;Freepik",
+        "News 1;News 2;News 3",
+        "nParagraph1.txt;nParagraph2.txt;nParagraph3.txt", 
+        "nImage1.png;nImage2.png;nImage3.png",
+        "google-maps;google maps icons;Google maps;manshagraphic,chat-bubbles;chat bubbles icon;Chat bubbles;manshagraphics,search;search icons;Search icons;Freepik"
+        );
 
 INSERT INTO app (AppName, Discription)
 VALUES  ("Warehouse Stock App", "This Application manages the warehouse stock"), 
