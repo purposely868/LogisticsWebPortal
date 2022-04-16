@@ -19,6 +19,8 @@ const sliderImages = document.querySelectorAll(".sliderImg");
 
 const sliderBtns = document.querySelector(".slider_btns");
 
+// functions ========================
+
 // add event listeners for sublist items
 for (const iterator of subList) {
   iterator.addEventListener("click", (e) => {
