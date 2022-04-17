@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="stylesheets/footer.css">
 
     <script src="javascripts/frontEvents.js" defer></script>
+    <script src="javascripts/userCheck.js" defer></script>
 
     <title>Document</title>
 </head>
@@ -41,7 +42,7 @@
                     <p>
                         <%= infoArray[2] %>
                     </p>
-                    <button class="loginBtn"><a href="/loginPage">Login</a></button>
+                    <%- include("login") %>
                 </div>
             </section>
             <section class="submenus_content">

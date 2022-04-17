@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("mysql2/promise");
-const path = require("path");
 
 // getting the appropriate app view depending on the DLP(OSZP)
 router.post("/", function (req, res, next) {
