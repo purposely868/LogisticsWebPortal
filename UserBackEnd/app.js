@@ -5,13 +5,16 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 
-const userHome = require("./routes/userHome");
-const appsRouter = require("./routes/apps");
-const userRegRouter = require("./routes/userReg");
-const index = require("./routes/index");
-const general = require("./routes/general");
-const login = require("./routes/login");
-const loginPage = require("./routes/loginPage");
+// Index Routes
+const index = require("./routes/indexRoutes/index");
+const general = require("./routes/indexRoutes/general");
+const loginPage = require("./routes/indexRoutes/loginPage");
+
+// Angular Routes
+const login = require("./routes/angularRoutes/login");
+const userHome = require("./routes/angularRoutes/userHome");
+const userAppsRouter = require("./routes/angularRoutes/userApps");
+const userRegRouter = require("./routes/angularRoutes/userReg");
 
 const app = express();
 
@@ -19,20 +22,24 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(cors());
+app.use(cors()); // for testing purposes in development.
+
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false })); // getting form data mainly
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Index Routers
 app.use("/", index);
 app.use("/general", general);
-app.use("/userHome", userHome);
-app.use("/apps", appsRouter);
-app.use("/userReg", userRegRouter);
-app.use("/login", login);
 app.use("/loginPage", loginPage);
+
+// Angular Routers
+app.use("/login", login);
+app.use("/userapps", userAppsRouter);
+app.use("/userHome", userHome);
+app.use("/userReg", userRegRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -6,27 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="stylesheets/globalStyles.css">
-    <link rel="stylesheet" href="stylesheets/header.css">
-    <link rel="stylesheet" href="stylesheets/indexStyles.css">
-    <link rel="stylesheet" href="stylesheets/footer.css">
+    <link rel="shortcut icon" href="/images/favicon/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="stylesheets/generalStyles/globalStyles.css">
+    <link rel="stylesheet" href="stylesheets/generalStyles/header.css">
+    <link rel="stylesheet" href="stylesheets/specificStyles/indexStyles.css">
+    <link rel="stylesheet" href="stylesheets/generalStyles/footer.css">
 
     <script src="javascripts/frontEvents.js" defer></script>
-    <script src="javascripts/userCheck.js" defer></script>
 
-    <title>Document</title>
+    <title>Home</title>
 </head>
 
 <body>
     <%- include("header") %>
         <main>
+
             <h1>Welcome To Here</h1>
             <section class="slider_container">
                 <div class="slider_img">
                     <!-- Dynamic Images with ejs -->
                     <% sliderArray.forEach(function(sliderImageName){ %>
-                        <%- include("slider", { sliderImageName }); %>
-                            <% }); %>
+                        <img src="images/sliderImages/<%= sliderImageName %>" alt="images/sliderImages/<%= sliderImageName %>" class="sliderImg visible10">
+                        <% }); %>
                 </div>
                 <div class="slider_btns visible20">
                 </div>
@@ -34,7 +36,7 @@
             <section class="info_login">
                 <div class="info">
                     <div>
-                        <img src="images/<%= infoArray[0] %>" alt="images/<%= infoArray[0] %> " width="50px" height="50px">
+                        <img src="images/infoImage/<%= infoArray[0] %>" alt="images/infoImage/<%= infoArray[0] %> " width="50px" height="50px">
                         <a href="https://www.flaticon.com/free-icons/<%= infoArray[1][0] %>" title="<%= infoArray[1][1] %>">
                             <%= infoArray[1][2] %> created by <%= infoArray[1][3] %> - Flaticon
                         </a>
@@ -42,7 +44,7 @@
                     <p>
                         <%= infoArray[2] %>
                     </p>
-                    <%- include("login") %>
+                    <button><a href="/loginPage">Login Page</a></button>
                 </div>
             </section>
             <section class="submenus_content">
@@ -90,8 +92,8 @@
                         </div>
                     </article>
                 </div>
-
             </section>
+
         </main>
         <%- include("footer") %>
 

@@ -4,11 +4,11 @@ const mysql = require("mysql2");
 const fs = require("fs");
 
 router.get("/", (req, res, next) => {
-  queryNewsSlider(res);
+  queryIndexDynamicData(res);
 });
 
-// News and slider query for index page
-function queryNewsSlider(res) {
+// News, Info and Slider queries for index page
+function queryIndexDynamicData(res) {
   const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -33,7 +33,7 @@ function queryNewsSlider(res) {
       infoArray = [
         result[0].infoImageName,
         fs.readFileSync(
-          `public\\paragraphs\\${result[0].infoParagraphName}`,
+          `public\\paragraphs\\infoPar\\${result[0].infoParagraphName}`,
           "utf-8"
         ),
         result[0].infoAttributions.split(";"),
@@ -53,7 +53,7 @@ function queryNewsSlider(res) {
         newsArray.push({
           title: newsTitleArray[i],
           paragraph: fs.readFileSync(
-            `public\\paragraphs\\${newsParagraphsArray[1]}`,
+            `public\\paragraphs\\newsPar\\${newsParagraphsArray[1]}`,
             "utf-8"
           ),
           image: newImagesArray[i],

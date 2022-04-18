@@ -1,78 +1,76 @@
 "use strict";
 
-// submenu
-const submenu = document.querySelector(".submenu");
+sublist();
 
-const subList = submenu.getElementsByTagName("li");
+newsbtns();
 
-const articles = document
-  .querySelector(".article_container")
-  .getElementsByTagName("article");
+sliders();
 
-// news
-const spansNews = document.querySelector(".newsBtns");
+function sliders() {
+  const sliderImages = document.querySelectorAll(".sliderImg");
 
-const newsArticles = document.querySelectorAll(".news");
+  const sliderBtns = document.querySelector(".slider_btns");
 
-// slider
-const sliderImages = document.querySelectorAll(".sliderImg");
+  for (let i = 0; i < sliderImages.length; i++) {
+    sliderBtns.appendChild(document.createElement("span"));
 
-const sliderBtns = document.querySelector(".slider_btns");
-
-// functions ========================
-
-// add event listeners for sublist items
-for (const iterator of subList) {
-  iterator.addEventListener("click", (e) => {
-    let contains = false;
-
-    for (const i of articles) {
-      i.classList.forEach((values) => {
-        console.log(values);
-        if (e.currentTarget.classList.contains(values)) {
-          contains = true;
+    sliderBtns.querySelectorAll("span")[i].addEventListener("click", (e) => {
+      sliderImages.forEach((values, index) => {
+        if (index == i) {
+          values.classList.add("visible15");
+        } else {
+          values.classList.remove("visible15");
         }
       });
-      if (contains) {
-        i.classList.add("visible15");
-        contains = false;
-      } else {
-        i.classList.remove("visible15");
-      }
-    }
-  });
+    });
+  }
 }
 
-// add event listeners for news buttons
-for (let i = 0; i < newsArticles.length; i++) {
-  spansNews.appendChild(document.createElement("span"));
+function sublist() {
+  const submenu = document.querySelector(".submenu");
 
-  spansNews.querySelectorAll("span")[i].addEventListener("click", (e) => {
-    newsArticles.forEach((values, index) => {
-      if (index == i) {
-        values.classList.add("visible20");
-      } else {
-        values.classList.remove("visible20");
+  const subList = submenu.getElementsByTagName("li");
+
+  const articles = document
+    .querySelector(".article_container")
+    .getElementsByTagName("article");
+  for (const iterator of subList) {
+    iterator.addEventListener("click", (e) => {
+      let contains = false;
+
+      for (const i of articles) {
+        i.classList.forEach((values) => {
+          console.log(values);
+          if (e.currentTarget.classList.contains(values)) {
+            contains = true;
+          }
+        });
+        if (contains) {
+          i.classList.add("visible15");
+          contains = false;
+        } else {
+          i.classList.remove("visible15");
+        }
       }
     });
-
-    console.log(i);
-  });
+  }
 }
 
-// add event listeners for sliders
-for (let i = 0; i < sliderImages.length; i++) {
-  sliderBtns.appendChild(document.createElement("span"));
+function newsbtns() {
+  const spansNews = document.querySelector(".newsBtns");
 
-  sliderBtns.querySelectorAll("span")[i].addEventListener("click", (e) => {
-    sliderImages.forEach((values, index) => {
-      if (index == i) {
-        values.classList.add("visible15");
-      } else {
-        values.classList.remove("visible15");
-      }
+  const newsArticles = document.querySelectorAll(".news");
+  for (let i = 0; i < newsArticles.length; i++) {
+    spansNews.appendChild(document.createElement("span"));
+
+    spansNews.querySelectorAll("span")[i].addEventListener("click", (e) => {
+      newsArticles.forEach((values, index) => {
+        if (index == i) {
+          values.classList.add("visible20");
+        } else {
+          values.classList.remove("visible20");
+        }
+      });
     });
-
-    console.log(i);
-  });
+  }
 }

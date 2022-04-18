@@ -1,4 +1,5 @@
 main {
+  background-color: var(--secondery-bg-color);
   grid-column: 2/16;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -11,6 +12,10 @@ main > h1 {
   grid-column: 2 / 12;
   grid-row: 1 / 2;
   margin: auto auto;
+}
+
+.mainContainer {
+  background-color: var();
 }
 
 .slider_container {
@@ -58,15 +63,16 @@ main > h1 {
   display: inline-block;
   width: 20px;
   height: 20px;
-  background-color: brown;
-  border: 3px solid burlywood;
+  background-color: var(--slider-btns-bg-color);
+  border: 3px solid var(--slider-btns-border-color);
   border-radius: 50%;
   margin: 5px 5px;
 }
 
 .slider_btns > span:hover {
   cursor: pointer;
-  background-color: chocolate;
+  background-color: var(--slider-btns-border-color);
+  border: 3px solid var(--slider-btns-bg-color);
 }
 
 /* Slider styling end */
@@ -74,7 +80,7 @@ main > h1 {
 /* || Articles styling start */
 
 .submenus_content {
-  background-color: aquamarine;
+  background-color: var(--secondery-bg-color);
 }
 
 .submenu {
@@ -82,14 +88,16 @@ main > h1 {
   margin: 0;
   height: 3rem;
   width: 80%;
-  background-color: aqua;
+
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   flex: 1 1 auto;
+  color: white;
 }
 
 .submenu li {
+  background-color: var(--menu-bg-color);
   padding: 0px 10px;
   display: inline-flex;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -97,11 +105,12 @@ main > h1 {
   width: max-content;
   height: 100%;
   align-items: center;
+  margin-right: 1px;
 }
 
 .submenu li:hover {
   cursor: pointer;
-  background-color: azure;
+  background-color: var(--slider-btns-bg-color);
 }
 
 .article_container {
@@ -112,7 +121,7 @@ main > h1 {
 
 .article_container > article {
   position: absolute;
-  background-color: aliceblue;
+  background-color: var(--main-bg-color);
   height: 100%;
   width: 100%;
 }
@@ -123,7 +132,7 @@ main > h1 {
 
 .news {
   position: absolute;
-  background-color: aliceblue;
+  background-color: var(--main-bg-color);
   display: flex;
   height: inherit;
 }
@@ -148,15 +157,16 @@ main > h1 {
   display: inline-block;
   width: 20px;
   height: 20px;
-  background-color: brown;
-  border: 3px solid burlywood;
+  background-color: var(--slider-btns-bg-color);
+  border: 3px solid var(--slider-btns-border-color);
   border-radius: 50%;
   margin: 5px 5px;
 }
 
 .newsBtns > span:hover {
   cursor: pointer;
-  background-color: chocolate;
+  background-color: var(--slider-btns-border-color);
+  border: 3px solid var(--slider-btns-bg-color);
 }
 /* News Styles end */
 /* Articles styling end */

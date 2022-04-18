@@ -1,3 +1,5 @@
+@import "variables.css";
+
 header {
   grid-column: 2/16;
 
@@ -24,15 +26,16 @@ header {
 .companyLogo > a {
   display: block;
   font-style: italic;
-  color: rgb(158, 200, 202);
+  color: var(--attrfont-ligth-color);
   font-size: 10px;
 }
 
 .mainNav {
   grid-column: 2 / 16;
   grid-row: 3;
-  background-color: rgb(162, 185, 201);
+  background-color: var(--menu-bg-color);
   height: 2rem;
+  color: var(--font-light-color);
 }
 
 .mainNav > li {
@@ -40,6 +43,10 @@ header {
   margin-left: 20px;
   font-weight: bold;
   height: inherit;
+}
+
+.mainNav a {
+  color: inherit;
 }
 
 .mainNav > .legalInfo {
@@ -54,7 +61,7 @@ header {
 
 .legalInfo:hover .legalNav {
   display: block;
-  background-color: #00b7ff;
+  background-color: var(--menu-bg-color);
   z-index: 10;
 }
 
@@ -64,5 +71,5 @@ header {
 }
 
 .legalNav > li:hover {
-  background-color: aliceblue;
+  background-color: var(--menudropd-bg-color);
 }

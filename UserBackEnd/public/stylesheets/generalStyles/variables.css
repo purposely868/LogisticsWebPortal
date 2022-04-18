@@ -1,0 +1,16 @@
+:root {
+  --main-bg-color: white;
+  --secondery-bg-color: #e6f2ff;
+
+  --menu-bg-color: #0047b3;
+  --btns-bg-color: #0052cc;
+  --articles-bg-color: #e6eeff;
+  --menudropd-bg-color: #ccd9ff;
+
+  --slider-btns-bg-color: #000080;
+  --slider-btns-border-color: #e6e6ff;
+
+  --font-light-color: white;
+  --font-dark-color: black;
+  --attrfont-ligth-color: #b3c6ff;
+}
