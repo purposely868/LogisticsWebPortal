@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LoginServiceService } from '../login-service.service';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-login-page',
@@ -10,7 +10,7 @@ import { LoginServiceService } from '../login-service.service';
 export class LoginPageComponent implements OnInit {
   @Output() loginResult = new EventEmitter<boolean>();
 
-  constructor(private login: LoginServiceService) {}
+  constructor(private login: LoginService) {}
 
   ngOnInit(): void {}
 

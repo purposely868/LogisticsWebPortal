@@ -1,47 +1,53 @@
-const express = require("express");
+import express from "express";
+import { Request, Response, NextFunction } from "express-serve-static-core";
 const router = express.Router();
-const mysql = require("mysql2/promise");
+import mysql from "mysql2/promise";
+import { ParsedQs } from "qs";
 
 // This is for the user management app.
 
 // Routes
-router.get("/frontvalidation", (req, res, next) => {
-  frontValidation(req, res, next);
-});
+router.get("/frontvalidation", (req, res, next) => {});
 
 router.post("/register", (req, res, next) => {
-  userRegister(req, res, next);
+  userRegister(req, res);
 });
 
 router.put("/information", (req, res, next) => {
-  userInformation(req, res, next);
+  userInformation(req.body.d_l_p, req.body.username);
 });
 
 router.put("/update", (req, res, next) => {
-  userUpdate(req, res, next);
+  userUpdate(req, res);
   res.status;
 });
 
-router.delete("/delete", (req, res, next) => {
-  userDelete(req, res, next);
+router.delete("/delete", (req, res) => {
+  userDelete(req, res);
 });
 
-router.get("/alloszp", (req, res, next) => {
-  informations(req, res, next, "alloszp");
+router.get("/alloszp", (req, res) => {
+  informations(res, "alloszp");
 });
 
-router.get("/alluser", (req, res, next) => {
-  informations(req, res, next, "alluser");
+router.get("/alluser", (req, res) => {
+  informations(res, "alluser");
 });
 
-router.get("/allappsrigths", (req, res, next) => {
-  informations(req, res, next, "appsrigths");
+router.get("/allappsrigths", (req, res) => {
+  informations(res, "appsrigths");
 });
 
 // Function Definitions:
 
 // O_SZ_P and apps and rights Information after reg and up the user
-async function userInformation(d_l_p, username, connection) {
+async function userInformation(d_l_p: string, username: string) {
+  const connection = await mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    database: "users",
+    password: "1asxqklp546",
+  });
   //This gets requested after submitting the registration and updateing a user and if every thing went ok.
 
   // needs Username + OSZP
@@ -49,13 +55,14 @@ async function userInformation(d_l_p, username, connection) {
   // IMPORTAN: i have to wait for the connection to establis because
   // .execute can only work if the connection is ready. It is not like .then
 
-  const returnInfo = {
+  const returnInfo: { [index: string]: string | number | string[] } = {
     DepartmentName: "",
     PozLevel: 0,
     PozitionName: "",
     PozitionDiscription: "",
     AppName: "",
-    Rights: [],
+    Rights: [] as string[],
+    AllInfo: [] as string[],
   };
 
   const queryResult = await connection
@@ -69,7 +76,7 @@ async function userInformation(d_l_p, username, connection) {
   WHERE dlp.D_L_P_ID = ?`,
       [d_l_p]
     )
-    .then((resolve) => {
+    .then((resolve: any[]) => {
       for (let i = 0; i < resolve[0].length; i++) {
         const element = resolve[0][i];
 
@@ -84,7 +91,7 @@ async function userInformation(d_l_p, username, connection) {
         username,
       ]);
     })
-    .then((resolve) => {
+    .then((resolve: any[]) => {
       returnInfo.AllInfo = resolve[0];
       return returnInfo;
     });
@@ -93,47 +100,51 @@ async function userInformation(d_l_p, username, connection) {
 }
 
 // Some Validation Info for front end ===========
-async function frontValidation(req, res, next) {
-  // Sends validation info so it can be more automatic and because all the validation is done front end
+// async function frontValidation(req, res, next) {
+//   // Sends validation info so it can be more automatic and because all the validation is done front end
 
-  // All posszible OSZP, Field type, max characters or value, not null
+//   // All posszible OSZP, Field type, max characters or value, not null
 
-  const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "users",
-    password: "1asxqklp546",
-  });
+//   const connection = await mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     database: "users",
+//     password: "1asxqklp546",
+//   });
 
-  const frontValidation = { userValid: [], oszpValid: 0, passwordValid: {} };
+//   const frontValidation = { userValid: [], oszpValid: 0, passwordValid: {} };
 
-  const validationUsers = await connection.execute(`SHOW COLUMNS FROM users`);
+//   const validationUsers = await connection.execute(`SHOW COLUMNS FROM users`);
 
-  const allPosszibleOSZP =
-    await connection.execute(`SELECT 	COUNT(D_L_P_ID) as NumberOfDLPs
-  FROM dep_lev_poz as dlp`);
+//   const allPosszibleOSZP =
+//     await connection.execute(`SELECT 	COUNT(D_L_P_ID) as NumberOfDLPs
+//   FROM dep_lev_poz as dlp`);
 
-  const validationPassword = await connection.execute(
-    `SELECT * FROM passwordrules`
-  );
+//   const validationPassword = await connection.execute(
+//     `SELECT * FROM passwordrules`
+//   );
 
-  for (const iterator of validationUsers[0]) {
-    frontValidation.userValid.push({
-      field: iterator.Field,
-      type: iterator.Type,
-      null: iterator.Null,
-    });
-  }
+//   for (const iterator of validationUsers[0]) {
+//     frontValidation.userValid.push({
+//       field: iterator.Field,
+//       type: iterator.Type,
+//       null: iterator.Null,
+//     });
+//   }
 
-  frontValidation.oszpValid = allPosszibleOSZP[0][0];
-  frontValidation.passwordValid = validationPassword[0][0];
+//   frontValidation.oszpValid = allPosszibleOSZP[0][0];
+//   frontValidation.passwordValid = validationPassword[0][0];
 
-  //console.log(frontValidation);
-  res.json(frontValidation);
-}
+//   //console.log(frontValidation);
+//   res.json(frontValidation);
+// }
 
 // REGISTER =================
-async function userRegister(req, res, next) {
+
+async function userRegister(
+  req: Request<{}, any, any, ParsedQs, Record<string, any>>,
+  res: Response<any, Record<string, any>, number>
+) {
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -158,7 +169,7 @@ async function userRegister(req, res, next) {
       ]
     )
     .then((resolve) => {
-      return userInformation(req.body.D_L_P, req.body.Username, connection);
+      return userInformation(req.body.D_L_P, req.body.Username);
     })
     .then((resolve) => {
       res.sendStatus(201);
@@ -170,7 +181,10 @@ async function userRegister(req, res, next) {
 }
 
 // UPDATE =================
-function userUpdate(req, res, next) {
+function userUpdate(
+  req: Request<{}, any, any, ParsedQs, Record<string, any>>,
+  res: Response<any, Record<string, any>, number>
+) {
   const mysql = require("mysql2");
 
   const connection = mysql.createConnection({
@@ -196,21 +210,30 @@ function userUpdate(req, res, next) {
 
   queryUpdate += ` WHERE Username = "${req.body.Username}"`;
 
-  connection.execute(queryUpdate, updateValues, (err, results, fields) => {
-    if (err) {
-      res.send(sqlErrorHandle(err));
-    } else if (results.info.indexOf("0") != 14) {
-      res.status(404);
-      res.send(sqlErrorHandle(new Error(`No user named ${req.body.username}`)));
-    } else {
-      res.status(201);
-      res.json(results);
+  connection.execute(
+    queryUpdate,
+    updateValues,
+    (err: Error, results: { info: string | string[] }, fields: any) => {
+      if (err) {
+        res.send(sqlErrorHandle(err));
+      } else if (results.info.indexOf("0") != 14) {
+        res.status(404);
+        res.send(
+          sqlErrorHandle(new Error(`No user named ${req.body.username}`))
+        );
+      } else {
+        res.status(201);
+        res.json(results);
+      }
     }
-  });
+  );
 }
 
 // DELETE =================
-function userDelete(req, res, next) {
+function userDelete(
+  req: Request<{}, any, any, ParsedQs, Record<string, any>>,
+  res: Response<any, Record<string, any>, number>
+) {
   const mysql = require("mysql2");
 
   const connection = mysql.createConnection({
@@ -223,7 +246,7 @@ function userDelete(req, res, next) {
   connection.execute(
     "DELETE FROM users WHERE Username = ?",
     [req.body.username],
-    (err, results, fields) => {
+    (err: Error, results: { affectedRows: number }, fields: any) => {
       if (err) {
         res.status(500);
         res.json(sqlErrorHandle(err));
@@ -240,7 +263,10 @@ function userDelete(req, res, next) {
 }
 
 // Send Information about apps rights and oszps
-async function informations(req, res, next, target) {
+async function informations(
+  res: Response<any, Record<string, any>, number>,
+  target: string
+) {
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -248,7 +274,7 @@ async function informations(req, res, next, target) {
     password: "1asxqklp546",
   });
 
-  let queryResult = [];
+  let queryResult: any[] = [];
 
   switch (target) {
     case "alloszp":
@@ -274,7 +300,7 @@ async function informations(req, res, next, target) {
 }
 
 // Some sqlErrorHandling
-function sqlErrorHandle(err) {
+function sqlErrorHandle(err: any) {
   // This is used to handle certain sql errors. Minimum checks, uniqueness and existense
   // Minimum length check is on the dbs-side
   if (err.errno == 3819) {
@@ -294,4 +320,4 @@ function sqlErrorHandle(err) {
   } else return err;
 }
 
-module.exports = router;
+export default router;

@@ -1,19 +1,8 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const mysql = require("mysql2/promise");
-const formidable = require("formidable");
+import mysql from "mysql2/promise";
 
 router.post("/", (req, res, next) => {
-  //const form = formidable();
-
-  // form.parse(req, (err, fields, files) => {
-  //   if (err) {
-  //     next(err);
-  //     return;
-  //   }
-
-  //   console.log({ fields, files });
-  // });
   console.log(req.body);
   passwordAndUserCheck(req.body)
     .then((resolve) => userInfo(req.body))
@@ -21,20 +10,23 @@ router.post("/", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
-async function passwordAndUserCheck(userPass) {
-  const connection = await mysql.createConnection({
+async function passwordAndUserCheck(userPass: {
+  username: string;
+  password: any;
+}) {
+  const connection: any = await mysql.createConnection({
     host: "localhost",
     user: "root",
     database: "users",
     password: "1asxqklp546",
   });
 
-  const userRes = await connection.execute(
+  const userRes: any = await connection.execute(
     `SELECT users.Username FROM users WHERE users.Username = ?`,
     [userPass.username]
   );
 
-  const passResult = await connection.execute(
+  const passResult: any = await connection.execute(
     `SELECT users.Password FROM users WHERE users.Password = ? AND users.Username = ?`,
     [userPass.password, userPass.username]
   );
@@ -58,7 +50,7 @@ async function passwordAndUserCheck(userPass) {
   }
 }
 
-async function userInfo(fields) {
+async function userInfo(fields: { username: any }) {
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -66,7 +58,7 @@ async function userInfo(fields) {
     password: "1asxqklp546",
   });
 
-  const queryResultUserInfo = await connection.execute(
+  const queryResultUserInfo: any = await connection.execute(
     `SELECT u.Username,  u.FirstN, u.LastN, u.Email, u.Phone, u.D_L_P, 
     dlp.DepartmentName, dlp.PozitionName
     FROM users AS u
@@ -76,7 +68,7 @@ async function userInfo(fields) {
     [fields.username]
   );
 
-  const oszp_id = queryResultUserInfo[0][0]["D_L_P"];
+  const oszp_id: string = queryResultUserInfo[0][0]["D_L_P"];
 
   const queryResultApps = await connection.execute("SELECT * FROM app");
 
@@ -100,4 +92,4 @@ async function userInfo(fields) {
   };
 }
 
-module.exports = router;
+export default router;

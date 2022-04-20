@@ -1,11 +1,11 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-router.get("/about", (req, res, next) => {
+router.get("/about", (req, res) => {
   res.render("generalView", { title: "About Us" });
 });
 
-router.get("/contact", (req, res, next) => {
+router.get("/contact", (req, res) => {
   res.render("generalView", { title: "Contact Us" });
 });
 
@@ -26,8 +26,8 @@ router.get("/legalinfo/:info", (req, res, next) => {
   }
 });
 
-router.get("/companylogin", (req, res, next) => {
+router.get("/companylogin", (req, res) => {
   res.render("generalView", { title: "Copany Login" });
 });
 
-module.exports = router;
+export default router;

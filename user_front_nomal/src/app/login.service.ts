@@ -3,10 +3,14 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginServiceService {
+export class LoginService {
   constructor() {}
 
-  async loginRequest(userPass: any) {
+  async passwordValidations() {
+    
+  }
+
+  async loginRequest(userPass: any): Promise<Response> {
     return await fetch('http://localhost:3000/login', {
       method: 'POST',
       body: JSON.stringify(userPass),

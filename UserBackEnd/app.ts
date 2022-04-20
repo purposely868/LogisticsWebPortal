@@ -1,20 +1,20 @@
-const createError = require("http-errors");
-const express = require("express");
-const path = require("path");
+import createError from "http-errors";
+import express from "express";
+import path from "path";
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const cors = require("cors");
+import cors from "cors";
 
 // Index Routes
-const index = require("./routes/indexRoutes/index");
-const general = require("./routes/indexRoutes/general");
-const loginPage = require("./routes/indexRoutes/loginPage");
+import index from "./routes/indexRoutes/index";
+import general from "./routes/indexRoutes/general";
+import loginPage from "./routes/indexRoutes/loginPage";
 
 // Angular Routes
-const login = require("./routes/angularRoutes/login");
-const userHome = require("./routes/angularRoutes/userHome");
-const userAppsRouter = require("./routes/angularRoutes/userApps");
-const userRegRouter = require("./routes/angularRoutes/userReg");
+import login from "./routes/angularRoutes/login";
+import userHome from "./routes/angularRoutes/userHome";
+import userAppsRouter from "./routes/angularRoutes/userApps";
+import userRegRouter from "./routes/angularRoutes/userReg";
 
 const app = express();
 
@@ -47,7 +47,16 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (
+  err: { message: any; status: any },
+  req: { app: { get: (arg0: string) => string } },
+  res: {
+    locals: { message: any; error: any };
+    status: (arg0: any) => void;
+    render: (arg0: string) => void;
+  },
+  next: any
+) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
@@ -57,4 +66,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = app;
+export default app;

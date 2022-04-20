@@ -1,6 +1,8 @@
-const express = require("express");
+import express from "express";
+import { Request, Response } from "express-serve-static-core";
 const router = express.Router();
-const mysql = require("mysql2/promise");
+import mysql from "mysql2/promise";
+import { ParsedQs } from "qs";
 
 // Render user page back after succesful login
 router.post("/", (req, res, next) => {
@@ -9,7 +11,10 @@ router.post("/", (req, res, next) => {
   });
 });
 
-async function userInfo(req, res) {
+async function userInfo(
+  req: Request<{}, any, any, ParsedQs, Record<string, any>>,
+  res: Response<any, Record<string, any>, number>
+) {
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -17,7 +22,7 @@ async function userInfo(req, res) {
     password: "1asxqklp546",
   });
 
-  const queryResultUserInfo = await connection.execute(
+  const queryResultUserInfo: any = await connection.execute(
     `SELECT  u.FirstN, u.LastN, u.Email, u.Phone, u.D_L_P, 
     dlp.DepartmentName, dlp.PozitionName
     FROM users AS u
@@ -27,11 +32,11 @@ async function userInfo(req, res) {
     [req.body.username]
   );
 
-  const oszp_id = queryResultUserInfo[0][0]["D_L_P"];
+  const oszp_id: string = queryResultUserInfo[0][0]["D_L_P"];
 
-  const queryResultApps = await connection.execute("SELECT * FROM app");
+  const queryResultApps: any = await connection.execute("SELECT * FROM app");
 
-  const queryResultAppRights = await connection.execute(
+  const queryResultAppRights: any = await connection.execute(
     `SELECT ar.AppName, dlp.AppRights
     FROM d_l_p_rights AS dlp
     JOIN apprights AS ar
@@ -52,4 +57,4 @@ async function userInfo(req, res) {
   };
 }
 
-module.exports = router;
+export default router;
