@@ -6,14 +6,16 @@ import { ParsedQs } from "qs";
 
 // Render user page back after succesful login
 router.post("/", (req, res) => {
-  userInfo(req).then((resolve) => {
-    res.render("userHome", resolve);
-  });
+  userInfo(req.body.username)
+    .then((resolve) => {
+      res.json({ error: false, info: resolve });
+    })
+    .catch((err) => {
+      res.json({ error: false, info: err });
+    });
 });
 
-async function userInfo(
-  req: Request<{}, any, any, ParsedQs, Record<string, any>>
-) {
+async function userInfo(username: string) {
   const connection = mysql.createPool({
     host: "localhost",
     user: "root",
@@ -31,7 +33,7 @@ async function userInfo(
     JOIN dep_lev_poz AS dlp
     ON u.D_L_P = dlp.D_L_P_ID
     WHERE Username = ?`,
-    [req.body.username]
+    [username]
   );
 
   const oszp_id = (queryResultUserInfo as mysql.RowDataPacket[])[0]["D_L_P"];
@@ -49,13 +51,15 @@ async function userInfo(
 
   connection.end();
 
-  console.log(queryResultUserInfo);
-  console.log(queryResultAppRights);
-  console.log(queryResultApps);
+  console.log({
+    loginInfo: (queryResultUserInfo as mysql.RowDataPacket[])[0],
+    userAppRights: (queryResultAppRights as mysql.RowDataPacket[]),
+    allApps: queryResultApps[0],
+  });
 
   return {
     loginInfo: (queryResultUserInfo as mysql.RowDataPacket[])[0],
-    userAppRights: (queryResultAppRights as mysql.RowDataPacket[])[0],
+    userAppRights: (queryResultAppRights as mysql.RowDataPacket[]),
     allApps: queryResultApps[0],
   };
 }

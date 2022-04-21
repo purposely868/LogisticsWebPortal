@@ -17,11 +17,15 @@ const router = express_1.default.Router();
 const promise_1 = __importDefault(require("mysql2/promise"));
 // Render user page back after succesful login
 router.post("/", (req, res) => {
-    userInfo(req).then((resolve) => {
-        res.render("userHome", resolve);
+    userInfo(req.body.username)
+        .then((resolve) => {
+        res.json({ error: false, info: resolve });
+    })
+        .catch((err) => {
+        res.json({ error: false, info: err });
     });
 });
-function userInfo(req) {
+function userInfo(username) {
     return __awaiter(this, void 0, void 0, function* () {
         const connection = promise_1.default.createPool({
             host: "localhost",
@@ -37,7 +41,7 @@ function userInfo(req) {
     FROM users AS u
     JOIN dep_lev_poz AS dlp
     ON u.D_L_P = dlp.D_L_P_ID
-    WHERE Username = ?`, [req.body.username]);
+    WHERE Username = ?`, [username]);
         const oszp_id = queryResultUserInfo[0]["D_L_P"];
         const [queryResultAppRights] = yield connection.execute(`SELECT ar.AppName, dlp.AppRights
     FROM d_l_p_rights AS dlp
@@ -46,12 +50,14 @@ function userInfo(req) {
     WHERE dlp.D_L_P = ?`, [oszp_id]);
         const queryResultApps = yield connection.execute("SELECT * FROM app");
         connection.end();
-        console.log(queryResultUserInfo);
-        console.log(queryResultAppRights);
-        console.log(queryResultApps);
+        console.log({
+            loginInfo: queryResultUserInfo[0],
+            userAppRights: queryResultAppRights,
+            allApps: queryResultApps[0],
+        });
         return {
             loginInfo: queryResultUserInfo[0],
-            userAppRights: queryResultAppRights[0],
+            userAppRights: queryResultAppRights,
             allApps: queryResultApps[0],
         };
     });

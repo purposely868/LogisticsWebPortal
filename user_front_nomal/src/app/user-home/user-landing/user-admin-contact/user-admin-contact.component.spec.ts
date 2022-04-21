@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppNavmenuComponent } from './app-navmenu.component';
+import { UserAdminContactComponent } from './user-admin-contact.component';
 
-describe('AppNavmenuComponent', () => {
-  let component: AppNavmenuComponent;
-  let fixture: ComponentFixture<AppNavmenuComponent>;
+describe('UserAdminContactComponent', () => {
+  let component: UserAdminContactComponent;
+  let fixture: ComponentFixture<UserAdminContactComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AppNavmenuComponent ]
+      declarations: [ UserAdminContactComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppNavmenuComponent);
+    fixture = TestBed.createComponent(UserAdminContactComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -10,14 +10,14 @@ router.post("/", (req, res) => {
     console.log(req.body);
     const val = new sqlClass_1.default();
     val
-        .passwordCheck(req.body.Password, req.body.Username)
+        .passwordCheck(req.body.password, req.body.username)
         .then((resolve) => {
-        console.log(resolve);
-        res.json(resolve);
+        //console.log(resolve);
+        res.json({ error: false, info: resolve });
     })
         .catch((err) => {
-        console.log(err);
-        res.json(err);
+        //console.log(err);
+        res.json({ error: true, info: err });
     });
 });
 exports.default = router;

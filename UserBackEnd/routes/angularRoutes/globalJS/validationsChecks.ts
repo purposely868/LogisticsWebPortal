@@ -40,7 +40,7 @@ export default class FrontValid {
               new Error("Password not matching for: " + username)
             );
           } else {
-            console.log(resolved);
+            console.log(resolved[0]);
 
             this._connection.end();
             return "OK";

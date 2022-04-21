@@ -7,14 +7,14 @@ router.post("/", (req, res) => {
   const val = new sqlClass();
 
   val
-    .passwordCheck(req.body.Password, req.body.Username)
+    .passwordCheck(req.body.password, req.body.username)
     .then((resolve) => {
       //console.log(resolve);
-      res.json(resolve);
+      res.json({ error: false, info: resolve });
     })
     .catch((err) => {
       //console.log(err);
-      res.json(err);
+      res.json({ error: true, info: err });
     });
 });
 
