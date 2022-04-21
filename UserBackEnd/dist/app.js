@@ -16,7 +16,6 @@ const loginPage_1 = __importDefault(require("./routes/indexRoutes/loginPage"));
 // Angular Routes
 const login_1 = __importDefault(require("./routes/angularRoutes/login"));
 const userHome_1 = __importDefault(require("./routes/angularRoutes/userHome"));
-const userApps_1 = __importDefault(require("./routes/angularRoutes/userApps"));
 const userReg_1 = __importDefault(require("./routes/angularRoutes/userReg"));
 const app = (0, express_1.default)();
 // view engine setup
@@ -34,7 +33,6 @@ app.use("/general", general_1.default);
 app.use("/loginPage", loginPage_1.default);
 // Angular Routers
 app.use("/login", login_1.default);
-app.use("/userapps", userApps_1.default);
 app.use("/userHome", userHome_1.default);
 app.use("/userReg", userReg_1.default);
 // catch 404 and forward to error handler

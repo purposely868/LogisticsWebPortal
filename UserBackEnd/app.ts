@@ -13,7 +13,6 @@ import loginPage from "./routes/indexRoutes/loginPage";
 // Angular Routes
 import login from "./routes/angularRoutes/login";
 import userHome from "./routes/angularRoutes/userHome";
-import userAppsRouter from "./routes/angularRoutes/userApps";
 import userRegRouter from "./routes/angularRoutes/userReg";
 
 const app = express();
@@ -37,7 +36,6 @@ app.use("/loginPage", loginPage);
 
 // Angular Routers
 app.use("/login", login);
-app.use("/userapps", userAppsRouter);
 app.use("/userHome", userHome);
 app.use("/userReg", userRegRouter);
 

@@ -27,12 +27,6 @@ function appQuery(req, res) {
             database: "users",
             password: "1asxqklp546",
         });
-        const queryResultApps = yield connection.execute("SELECT * FROM app");
-        const appRightsQuery = yield connection.execute(`SELECT ar.AppName, dlp.AppRights
-            FROM d_l_p_rights AS dlp
-            JOIN apprights AS ar
-            ON ar.Rights = dlp.AppRights
-            WHERE dlp.D_L_P = ?`, [req.body.O_SZ_P]);
     });
 }
 exports.default = router;
