@@ -1,9 +1,14 @@
 import createError from "http-errors";
 import express from "express";
 import path from "path";
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+import logger from "morgan";
 import cors from "cors";
+import mysql2, { Pool } from "mysql2/promise";
+
+var cookieParser = require("cookie-parser");
+
+import session from "express-session";
+const MySQLStore = require("express-mysql-session")(session);
 
 // Index Routes
 import index from "./routes/indexRoutes/index";
@@ -21,15 +26,47 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(cors()); // for testing purposes in development.
+app.use(cors({ credentials: true, origin: true })); // for testing purposes in development.
+
+//app.use(cookieParser());
+
+const storeSQL = new MySQLStore(
+  { clearExpired: true, checkExpirationInterval: 28800000 },
+  mysql2.createPool({
+    host: "localhost",
+    user: "root",
+    database: `users`,
+    password: "1asxqklp546",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+  })
+);
+
+app.use(
+  session({
+    name: "UserSession",
+    secret: "sercret",
+    resave: false,
+    saveUninitialized: false,
+    store: storeSQL,
+    rolling: true,
+    cookie: {
+      secure: false,
+      maxAge: 36000000,
+      sameSite: true,
+      httpOnly: false,
+    },
+  })
+);
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // getting form data mainly
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Index Routers
+
 app.use("/", index);
 app.use("/general", general);
 app.use("/loginPage", loginPage);

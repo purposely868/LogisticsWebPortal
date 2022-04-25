@@ -1,8 +1,8 @@
 import express from "express";
 const router = express.Router();
 
-import sqlClass from "./globalJS/sqlClass";
-import frontValidClass from "./globalJS/validationsChecks";
+import sqlClass from "../globalJS/sqlClass";
+import frontValidClass from "../globalJS/validationsChecks";
 
 // This is for the user management app.
 // Where you register users and check their info
@@ -11,8 +11,12 @@ import frontValidClass from "./globalJS/validationsChecks";
 // Routes
 router.get("/frontvalidation", (req, res) => {
   // teljes front validation tartalom
-  const val = new frontValidClass();
-  Promise.all([val.UserValidation(), val.PasswordValidation(), val.AllOszps()])
+  const sqlC = new sqlClass("users", req.session);
+  Promise.all([
+    sqlC.UserValidation(),
+    sqlC.PasswordValidation(),
+    sqlC.AllOszps(),
+  ])
     .then((resolve) => {
       res.json(resolve);
     })
@@ -22,7 +26,7 @@ router.get("/frontvalidation", (req, res) => {
 });
 
 router.post("/register", (req, res) => {
-  const sqlC = new sqlClass();
+  const sqlC = new sqlClass("users", req.session);
 
   sqlC
     .userRegister(req.body)
@@ -36,7 +40,7 @@ router.post("/register", (req, res) => {
 });
 
 router.put("/information", (req, res) => {
-  const sqlC = new sqlClass();
+  const sqlC = new sqlClass("users", req.session);
 
   sqlC
     .userInformation(req.body.username)
@@ -49,7 +53,7 @@ router.put("/information", (req, res) => {
 });
 
 router.put("/update", (req, res) => {
-  const sqlC = new sqlClass();
+  const sqlC = new sqlClass("users", req.session);
 
   sqlC
     .userUpdate(req.body)
@@ -62,7 +66,7 @@ router.put("/update", (req, res) => {
 });
 
 router.delete("/delete", (req, res) => {
-  const sqlC = new sqlClass();
+  const sqlC = new sqlClass("users", req.session);
 
   sqlC
     .userDelete(req.body.Username)
@@ -77,7 +81,7 @@ router.delete("/delete", (req, res) => {
 });
 
 router.get("/info/:target", (req, res) => {
-  const sqlC = new sqlClass();
+  const sqlC = new sqlClass("users", req.session);
 
   sqlC
     .informations(req.params.target, req.body.Username)

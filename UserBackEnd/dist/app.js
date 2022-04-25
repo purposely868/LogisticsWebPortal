@@ -6,9 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const http_errors_1 = __importDefault(require("http-errors"));
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
+const promise_1 = __importDefault(require("mysql2/promise"));
+var cookieParser = require("cookie-parser");
+const express_session_1 = __importDefault(require("express-session"));
+const MySQLStore = require("express-mysql-session")(express_session_1.default);
 // Index Routes
 const index_1 = __importDefault(require("./routes/indexRoutes/index"));
 const general_1 = __importDefault(require("./routes/indexRoutes/general"));
@@ -21,11 +24,34 @@ const app = (0, express_1.default)();
 // view engine setup
 app.set("views", path_1.default.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.use((0, cors_1.default)()); // for testing purposes in development.
-app.use(logger("dev"));
+app.use((0, cors_1.default)({ credentials: true, origin: true })); // for testing purposes in development.
+//app.use(cookieParser());
+const storeSQL = new MySQLStore({ clearExpired: true, checkExpirationInterval: 28800000 }, promise_1.default.createPool({
+    host: "localhost",
+    user: "root",
+    database: `users`,
+    password: "1asxqklp546",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+}));
+app.use((0, express_session_1.default)({
+    name: "UserSession",
+    secret: "sercret",
+    resave: false,
+    saveUninitialized: false,
+    store: storeSQL,
+    rolling: true,
+    cookie: {
+        secure: false,
+        maxAge: 36000000,
+        sameSite: true,
+        httpOnly: false,
+    },
+}));
+app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false })); // getting form data mainly
-app.use(cookieParser());
 app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 // Index Routers
 app.use("/", index_1.default);

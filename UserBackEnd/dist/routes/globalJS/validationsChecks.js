@@ -8,14 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const promise_1 = require("mysql2/promise");
+const promise_1 = __importDefault(require("mysql2/promise"));
+const hashing_1 = __importDefault(require("./hashing"));
 class FrontValid {
-    constructor() {
-        this._connection = (0, promise_1.createPool)({
+    constructor(dbName, req) {
+        this._connection = promise_1.default.createPool({
             host: "localhost",
             user: "root",
-            database: "users",
+            database: `${dbName}`,
             password: "1asxqklp546",
             waitForConnections: true,
             connectionLimit: 10,
@@ -25,29 +29,48 @@ class FrontValid {
     // Check user if exists
     userThere(username) {
         return __awaiter(this, void 0, void 0, function* () {
-            const exists = yield this._connection.execute(`SELECT Username FROM users WHERE EXISTS (SELECT Username FROM users WHERE Username = ?)`, [username]);
-            // console.log(exists);
-            return exists[0].length === 0 ? true : false;
+            return yield this._connection
+                .execute(`SELECT Username FROM users WHERE EXISTS (SELECT Username FROM users WHERE Username = ?)`, [username])
+                .then((resolve) => {
+                // console.log(resolve);
+                return resolve[0].length === 0
+                    ? true
+                    : false;
+            });
         });
     }
     // Check if password is the users password
-    passwordCheck(password, username) {
+    passwordCheck(userInputPassword, username, requestSession) {
         return __awaiter(this, void 0, void 0, function* () {
+            const hashLogic = new hashing_1.default();
+            // Important Dont change sessions before checking the credentials!
+            // main logic
             if (!(yield this.userThere(username))) {
                 const pass = yield this._connection
-                    .execute(`SELECT users.Password FROM users WHERE users.Password = ? AND users.Username = ?`, [password, username])
+                    .execute(`SELECT users.Password FROM users WHERE users.Username = ?`, [
+                    username,
+                ])
                     .then((resolved) => {
-                    if (resolved[0].length == 0) {
-                        console.log(resolved[0]);
-                        return this.sqlErrorHandle(new Error("Password not matching for: " + username));
+                    // Here we take the result of the query
+                    const userPassDBS = resolved[0][0]
+                        .Password;
+                    // Here we check for the inputted user pass to be correct or not
+                    return hashLogic.passwordCheck(userInputPassword, userPassDBS);
+                })
+                    .then((resolvedPassword) => {
+                    // if user and password okey resolve logic
+                    console.log(resolvedPassword);
+                    // Changeing the request session so it will save the new session in the DBS and return the necesarry cookie(s).
+                    requestSession.username = username;
+                    // because the hashing function returns true or false we implement this logic
+                    if (resolvedPassword) {
+                        return "Password Matching";
                     }
                     else {
-                        console.log(resolved[0]);
-                        this._connection.end();
-                        return "OK";
+                        return this.sqlErrorHandle(new Error("Password not matching for: " + username));
                     }
                 });
-                // function normal return
+                // any return.
                 return pass;
             }
             else {
