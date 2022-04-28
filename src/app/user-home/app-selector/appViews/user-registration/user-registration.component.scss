@@ -1,0 +1,24 @@
+.container {
+  background-color: #72bdfa;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+.ng-valid:not(form) {
+  border-left: 5px solid green;
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid red;
+}
+
+.errMessage {
+  font-weight: bold;
+  color: rgb(214, 3, 3);
+}
+
+.center-block {
+  display: block;
+  margin: auto auto;
+}
