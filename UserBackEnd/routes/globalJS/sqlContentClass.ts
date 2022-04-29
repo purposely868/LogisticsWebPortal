@@ -36,7 +36,7 @@ export default class sqlContentClass {
 
   // angular user home general information eg. news, updates etc.
   async UserHomeGeneralContent() {
-    let resultInfo: resultInfo = {
+    const resultInfo: resultInfo = {
       newsImage: [],
       newsTitle: [],
       newsParagraph: [],
@@ -45,7 +45,7 @@ export default class sqlContentClass {
       changesParagraph: [],
     };
 
-    const userHomeInfo = this._connection
+    const userHomeQuery = this._connection
       .execute("SELECT * FROM userindexpageinfo")
       .then((resolve: any[]) => {
         //console.log(resolve[0]);
@@ -58,8 +58,9 @@ export default class sqlContentClass {
         }
         return resultInfo;
       });
+
     //console.log(userHomeInfo);
-    return userHomeInfo;
+    return userHomeQuery;
   }
 
   // News, Info and Slider queries for index page
@@ -130,5 +131,9 @@ export default class sqlContentClass {
       });
     // return the result of the query
     return indexInfo;
+  }
+
+  poolClose() {
+    this._connection.end();
   }
 }

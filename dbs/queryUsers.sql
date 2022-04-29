@@ -61,10 +61,6 @@ WHERE dlp.D_L_P = "variable";
 INSERT INTO users(Username, FirstN, LastN, Email, Phone, D_L_P,   Password)
      VALUES (?, ?, ?, ?, ?, ?, ?);
 
-UPDATE users 
-SEt ? = ?, ? = ?
-WHERE ?;
-
 DELETE FROM users WHERE Username = ?;
 
 -- Initialization data queries and validations

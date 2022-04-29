@@ -1,1 +1,9 @@
-<p>user-info works!</p>
+<div class="card">
+    <h3 class="card-header">User Information</h3>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let key_data of getUserData">
+            <span class="UserKey">{{key_data[0]}}:</span>
+            <span class="UserData">{{key_data[1]}}</span>
+        </li>
+    </ul>
+</div>

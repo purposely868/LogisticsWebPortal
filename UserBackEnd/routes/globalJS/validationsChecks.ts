@@ -25,7 +25,7 @@ export default class FrontValid {
       )
       .then((resolve) => {
         // console.log(resolve);
-        return (resolve[0] as mysql2.RowDataPacket[]).length === 0
+        return (resolve[0] as mysql2.RowDataPacket[]).length !== 0
           ? true
           : false;
       });
@@ -41,7 +41,7 @@ export default class FrontValid {
 
     // Important Dont change sessions before checking the credentials!
     // main logic
-    if (!(await this.userThere(username))) {
+    if (await this.userThere(username)) {
       const pass = await this._connection
         .execute(`SELECT users.Password FROM users WHERE users.Username = ?`, [
           username,
@@ -57,7 +57,6 @@ export default class FrontValid {
         .then((resolvedPassword) => {
           // if user and password okey resolve logic
           console.log(resolvedPassword);
-
 
           // Changeing the request session so it will save the new session in the DBS and return the necesarry cookie(s).
           requestSession.username = username;
@@ -82,7 +81,7 @@ export default class FrontValid {
   async UserValidation() {
     const userValid: { field: string; type: string; null: string }[] = [];
 
-    const validationUsers = await this._connection
+    const validationUsers = this._connection
       .execute(`SHOW COLUMNS FROM users`)
       .then((resolve: any) => {
         for (const iterator of resolve[0] as mysql2.RowDataPacket[]) {
@@ -100,11 +99,10 @@ export default class FrontValid {
 
   // All possible OSZP's
   async AllOszps() {
-    const allPosszibleOSZP: any[] = await this._connection
-      .execute(`SELECT 	COUNT(D_L_P_ID) as NumberOfDLPs
+    const allPosszibleOSZP: any[] = await this._connection.execute(`SELECT 	* 
     FROM dep_lev_poz as dlp`);
 
-    return allPosszibleOSZP[0][0];
+    return allPosszibleOSZP[0];
   }
 
   // Password validation options
@@ -120,7 +118,6 @@ export default class FrontValid {
   sqlErrorHandle(err: any) {
     // This is used to handle certain sql errors. Minimum checks, uniqueness and existense
     // Minimum length check is on the dbs-side
-    this._connection.end();
     console.log("here" + err.message);
     if (err.errno == 3819) {
       let indexLast = err.sqlMessage.lastIndexOf("_");

@@ -19,6 +19,8 @@ import loginPage from "./routes/indexRoutes/loginPage";
 import login from "./routes/angularRoutes/login";
 import userHome from "./routes/angularRoutes/userHome";
 import userRegRouter from "./routes/angularRoutes/userReg";
+import logout from "./routes/angularRoutes/logout";
+import userData from "./routes/angularRoutes/userData";
 
 const app = express();
 
@@ -31,7 +33,10 @@ app.use(cors({ credentials: true, origin: true })); // for testing purposes in d
 //app.use(cookieParser());
 
 const storeSQL = new MySQLStore(
-  { clearExpired: true, checkExpirationInterval: 28800000 },
+  {
+    clearExpired: true,
+    checkExpirationInterval: 3600000,
+  },
   mysql2.createPool({
     host: "localhost",
     user: "root",
@@ -53,9 +58,9 @@ app.use(
     rolling: true,
     cookie: {
       secure: false,
-      maxAge: 36000000,
+      maxAge: 3600000,
       sameSite: true,
-      httpOnly: false,
+      httpOnly: true,
     },
   })
 );
@@ -66,15 +71,16 @@ app.use(express.urlencoded({ extended: false })); // getting form data mainly
 app.use(express.static(path.join(__dirname, "public")));
 
 // Index Routers
-
 app.use("/", index);
 app.use("/general", general);
 app.use("/loginPage", loginPage);
 
 // Angular Routers
 app.use("/login", login);
+app.use("/userData", userData);
 app.use("/userHome", userHome);
 app.use("/userReg", userRegRouter);
+app.use("/logout", logout);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

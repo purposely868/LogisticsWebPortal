@@ -52,23 +52,23 @@ CREATE TABLE d_l_p_rights (
 );
 
 CREATE TABLE users (
-	Username varchar(10),
-    FirstN varchar(15) NOT NULL,
-    LastN varchar(15) NOT NULL,
-    Email varchar(30) NOT NULL UNIQUE,
-    Phone varchar(20),
-    Password varchar(20) NOT NULL,
-    D_L_P tinyint NOT NULL,
+	userName varchar(10),
+    firstname varchar(15) NOT NULL,
+    lastName varchar(15) NOT NULL,
+    email varchar(30) NOT NULL UNIQUE,
+    phone varchar(20),
+    password varchar(255) NOT NULL,
+    oszp tinyint NOT NULL,
     PRIMARY KEY (Username),
-    FOREIGN KEY(D_L_P) REFERENCES Dep_Lev_Poz(D_L_P_ID) 
+    FOREIGN KEY(oszp) REFERENCES Dep_Lev_Poz(D_L_P_ID) 
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
-    CONSTRAINT MinL4_UserName_ CHECK (CHARACTER_LENGTH(Username)>=4),
-	CONSTRAINT MinL2_FirstN_ CHECK (CHARACTER_LENGTH(FirstN)>=2 ),
-	CONSTRAINT MinL2_LastN_ CHECK (CHARACTER_LENGTH(LastN)>=2),
-	CONSTRAINT MinL10_Email_ CHECK (CHARACTER_LENGTH(Email)>= 10),
-	CONSTRAINT MinL8_Phone_ CHECK (CHARACTER_LENGTH(Phone)>=8),
-	CONSTRAINT MinL8_Password_ CHECK (CHARACTER_LENGTH(Password)>=8)
+    CONSTRAINT MinL4_UserName_ CHECK (CHARACTER_LENGTH(userName)>=4),
+	CONSTRAINT MinL2_FirstN_ CHECK (CHARACTER_LENGTH(firstname)>=2 ),
+	CONSTRAINT MinL2_LastN_ CHECK (CHARACTER_LENGTH(lastName)>=2),
+	CONSTRAINT MinL10_Email_ CHECK (CHARACTER_LENGTH(email)>= 10),
+	CONSTRAINT MinL8_Phone_ CHECK (CHARACTER_LENGTH(phone)>=8),
+	CONSTRAINT MinL8_Password_ CHECK (CHARACTER_LENGTH(password)>=8)
 );
 
 CREATE TABLE passwordRules ( 
@@ -80,31 +80,7 @@ CREATE TABLE passwordRules (
     CONSTRAINT PK_password PRIMARY KEY(minLength, maxLength, minUppercase, minNumbers, minSymbols)
 );
 
-CREATE TABLE indexPageInfo (
-	indexID tinyint AUTO_INCREMENT,
-	sliderImagesName varchar(50) NOT NULL,
-    infoImageName varchar(20) NOT NULL,
-    infoParagraphName varchar(20) NOT NULL,
-    infoAttributions varchar(255) NOT NULL,
-    newsTitles varchar(20) NOT NULL,
-    newsParagraphsName varchar(50) NOT NULL,
-    newsImagesName varchar(50) NOT NULL,
-    newsImagesAttributions varchar(255) NOT NULL,
-    PRIMARY KEY(indexID)
-);
 
-/* Dummy data */
-
-INSERT INTO indexpageinfo (sliderImagesName, infoImageName, infoParagraphName, infoAttributions, newsTitles ,newsParagraphsName, newsImagesName, newsImagesAttributions)
-VALUES ("sImage1.jpg;sImage2.jpg;sImage3.jpg", 
-		"infoImage.png",
-        "infoParagraph.txt", 
-        "sushi;sushi icons;Sushi icons;Freepik",
-        "News 1;News 2;News 3",
-        "nParagraph1.txt;nParagraph2.txt;nParagraph3.txt", 
-        "nImage1.png;nImage2.png;nImage3.png",
-        "google-maps;google maps icons;Google maps;manshagraphic,chat-bubbles;chat bubbles icon;Chat bubbles;manshagraphics,search;search icons;Search icons;Freepik"
-        );
 
 INSERT INTO app (AppName, Discription)
 VALUES  ("Warehouse Stock App", "This Application manages the warehouse stock"), 
@@ -158,17 +134,17 @@ VALUES  (1, "Read and Query Data in WS App"),
         (10, "Edit All Data in PG App"),
         (10, "Edit All Data in WS App");
 
-INSERT INTO users(Username, FirstN, LastN, Email, Phone, D_L_P, Password)
-VALUES  ("Bob1", "Charly", "Madison", "CM@gmail.com", null, 1,"asd12345"),
-		("Bob2", "Boby", "Viliams", "VB@gmail.com", null, 2, "asd12345"),
-		("Bob3", "Brian", "Josh", "BJ@gmail.com", null, 3, "asd12345"),
-		("Bob4", "Clara", "Jason", "CJ@gmail.com", null, 4, "asd12345"),
-		("Bob5", "Halloween", "Pumpkin", "HP@gmail.com", "0630658972", 5, "asd12345"),
-		("Bob6", "Cristhmas", "Santa", "CS@gmail.com", "063063215", 6, "asd12345"),
-		("Bob7", "Veronika", "Versache", "VV@gmail.com", "063013987", 7, "asd12345"),
-		("Bob8", "Bianka", "Jonatan", "BJ2@gmail.com", "063036928", 8, "asd12345"),
-		("Bob9", "Agnes", "Klaudia", "AK@gmail.com", "063012368", 9, "asd12345"),
-        ("God19", "God", "Gedeon", "GG@gmail.com", "063012368", 10, "asd12345");
+INSERT INTO users(userName, firstName, lastName, email, phone, oszp, password)
+VALUES  ("Bob1", "Charly", "Madison", "CM@gmail.com", null, 1,"$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+		("Bob2", "Boby", "Viliams", "VB@gmail.com", null, 2, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+		("Bob3", "Brian", "Josh", "BJ@gmail.com", null, 3, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+		("Bob4", "Clara", "Jason", "CJ@gmail.com", null, 4, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+		("Bob5", "Halloween", "Pumpkin", "HP@gmail.com", "0630658972", 5, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+		("Bob6", "Cristhmas", "Santa", "CS@gmail.com", "063063215", 6, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+		("Bob7", "Veronika", "Versache", "VV@gmail.com", "063013987", 7, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+		("Bob8", "Bianka", "Jonatan", "BJ2@gmail.com", "063036928", 8, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+		("Bob9", "Agnes", "Klaudia", "AK@gmail.com", "063012368", 9, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W"),
+        ("God19", "God", "Gedeon", "GG@gmail.com", "063012368", 10, "$2b$10$V7iSnzKGbQRiBbsl98xZZeqqGyZ8hUl2JmLTsDNTaLrdQ0GExw15W");
         
 
 INSERT INTO passwordRules(minLength, maxLength, minUppercase, minNumbers, minSymbols)

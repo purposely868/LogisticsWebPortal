@@ -5,14 +5,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { UserHomeComponent } from './user-home/user-home.component';
-import { AppSelectorComponent } from './user-home/user-landing/app-selector/app-selector.component';
-import { HeaderNavComponent } from './user-home/header-nav/header-nav.component';
-import { FooterNavComponent } from './user-home/footer-nav/footer-nav.component';
+import { AppSelectorComponent } from './user-home/app-selector/app-selector.component';
+import { HeaderNavComponent } from './user-home/generalComps/header-nav/header-nav.component';
+import { FooterNavComponent } from './user-home/generalComps/footer-nav/footer-nav.component';
 import { FormsModule } from '@angular/forms';
+
 import { UserLandingComponent } from './user-home/user-landing/user-landing.component';
 import { UserInfoComponent } from './user-home/user-landing/user-info/user-info.component';
 import { UserNewsComponent } from './user-home/user-landing/user-news/user-news.component';
 import { UserAdminContactComponent } from './user-home/user-landing/user-admin-contact/user-admin-contact.component';
+
+// User Management Components
+import { UserManagementComponent } from './user-home/app-selector/appViews/user-management/user-management.component';
+import { UserRegistrationComponent } from './user-home/app-selector/appViews/user-management/user-registration/user-registration.component';
+
+// App Main Components
+import { AppMenuComponent } from './user-home/generalComps/app-menu/app-menu.component';
+import { AppSpecMenuComponent } from './user-home/app-selector/appViews/user-management/app-spec-menu/app-spec-menu.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { AppMainComponent } from './user-home/app-selector/app-main/app-main.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -26,9 +39,15 @@ import { UserAdminContactComponent } from './user-home/user-landing/user-admin-c
     UserInfoComponent,
     UserNewsComponent,
     UserAdminContactComponent,
+    AppMenuComponent,
+    AppSpecMenuComponent,
+    PagenotfoundComponent,
+    AppMainComponent,
+    UserManagementComponent,
+    UserRegistrationComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [],
+  imports: [NgbModule, BrowserModule, AppRoutingModule, FormsModule],
+  providers: [CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

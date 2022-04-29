@@ -1,0 +1,85 @@
+<h3 class="bg-primary text-white p-2">
+    User Management:
+    <small class="text-light">{{selectedMethode === 0 ? "User Registration" : selectedMethode === 1 ? "User Update" : "User Dele"}}</small>
+</h3>
+<form #ngform="ngForm" (submit)="onSubmit(ngform)">
+    <div class="row mb-3">
+        <label for="Username" class="col-sm-2 col-form-label">Username</label>
+        <div class="col-sm-8">
+            <input type="text" name="userName" class="form-control" id="Username" minlength="4" maxlength="10" required ngModel>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="FirstName" class="col-sm-2 col-form-label">FirstName</label>
+        <div class="col-sm-8">
+            <input type="text" name="firstName" class="form-control" id="FirstName" minlength="2" maxlength="15" required ngModel [disabled]="selectedMethode >= 1 && !firstnameChecked.checked">
+        </div>
+        <div class="form-check col-sm-2"><input class="form-check-input" type="checkbox" name="firstNameChecked" value="firstName" [disabled]="selectedMethode === 0 ? true : selectedMethode === 1 ? false : true" [(ngModel)]="checked[0]" [ngModelOptions]="{standalone: true}" #firstnameChecked [checked]="selectedMethode === 2 ? false : null"></div>
+    </div>
+    <div class="row mb-3">
+        <label for="LastName" class="col-sm-2 col-form-label">LastName</label>
+        <div class="col-sm-8">
+            <input type="text" name="lastName" class="form-control" id="LastName" minlength="2" maxlength="15" required ngModel [disabled]="selectedMethode >= 1 && !lastNameChecked.checked">
+        </div>
+        <div class="form-check col-sm-2"><input class="form-check-input" type="checkbox" name="lastNameChecked" value="lastName" [disabled]="selectedMethode === 0 ? true : selectedMethode === 1 ? false : true" [(ngModel)]="checked[1]" [ngModelOptions]="{standalone: true}" #lastNameChecked [checked]="selectedMethode === 2 ? false : null"></div>
+    </div>
+    <div class="row mb-3">
+        <label for="Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-8">
+            <input type="email" name="email" class="form-control" id="Email" minlength="10" maxlength="30" required ngModel [disabled]="selectedMethode >= 1 && !emailChecked.checked">
+        </div>
+        <div class="form-check col-sm-2"><input class="form-check-input" type="checkbox" name="emailChecked" value="email" [disabled]="selectedMethode === 0 ? true : selectedMethode === 1 ? false : true" [(ngModel)]="checked[2]" [ngModelOptions]="{standalone: true}" #emailChecked [checked]="selectedMethode >= 1 ? false : null"></div>
+    </div>
+    <div class="row mb-3">
+        <label for="Phone" class="col-sm-2 col-form-label">Phone</label>
+        <div class="col-sm-8">
+            <input type="text" name="phone" class="form-control" id="Phone" minlength="8" maxlength="20" ngModel [disabled]="selectedMethode >= 1  && !phoneChecked.checked">
+        </div>
+        <div class="form-check col-sm-2"><input class="form-check-input" type="checkbox" name="phoneChecked" value="phone" [disabled]="selectedMethode === 0 ? true : selectedMethode === 1 ? false : true" [(ngModel)]="checked[3]" [ngModelOptions]="{standalone: true}" #phoneChecked [checked]="selectedMethode >= 1 ? false : null">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="Password" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-8">
+            <input type="text" name="password" class="form-control" id="Password" minlength="8" maxlength="10" required ngModel [disabled]="selectedMethode >= 1 && !passwordChecked.checked">
+        </div>
+        <div class="form-check col-sm-2"><input class="form-check-input" type="checkbox" name="passwordChecked" value="password" [disabled]="selectedMethode === 0 ? true : selectedMethode === 1 ? false : true" [(ngModel)]="checked[4]" [ngModelOptions]="{standalone: true}" #passwordChecked [checked]="selectedMethode >= 1 ? false : null"></div>
+    </div>
+    <div class="row mb-3">
+        <label for="OSZP" class="col-sm-2 col-form-label">OSZP</label>
+        <div class="col-sm-2">
+            <select name="oszp" class="form-select" id="OSZP" required ngModel [disabled]="selectedMethode >= 1 && !oszpChecked.checked">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+        <div class="form-check col-sm-2">
+            <input class="form-check-input" type="checkbox" name="oszpChecked" value="oszp" [disabled]="selectedMethode === 0 ? true : selectedMethode === 1 ? false : true" [(ngModel)]="checked[5]" [ngModelOptions]="{standalone: true}" #oszpChecked [checked]="selectedMethode === 2 ? false : null">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary" [disabled]="!ngform.form.valid" [hidden]="selectedMethode === 0 ? false : selectedMethode === 1 ? true : true">Register</button>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary" [disabled]="!ngform.form.valid && updateValid" [hidden]="selectedMethode === 0 ? true : selectedMethode === 1 ? false : true">Update</button>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary" [disabled]="!ngform.form.valid" [hidden]="selectedMethode === 0 ? true : selectedMethode === 1 ? true : false">Delete</button>
+        </div>
+        <p *ngIf="errMessage" [ngClass]="['col-md-6 center-block', messageClass]">{{errMessage}}</p>
+    </div>
+
+
+</form>
+<br>
+<button type="button" class="btn btn-primary" (click)="onClick()">Get Front Validation Data</button>

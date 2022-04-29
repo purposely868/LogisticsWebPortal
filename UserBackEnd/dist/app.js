@@ -20,13 +20,18 @@ const loginPage_1 = __importDefault(require("./routes/indexRoutes/loginPage"));
 const login_1 = __importDefault(require("./routes/angularRoutes/login"));
 const userHome_1 = __importDefault(require("./routes/angularRoutes/userHome"));
 const userReg_1 = __importDefault(require("./routes/angularRoutes/userReg"));
+const logout_1 = __importDefault(require("./routes/angularRoutes/logout"));
+const userData_1 = __importDefault(require("./routes/angularRoutes/userData"));
 const app = (0, express_1.default)();
 // view engine setup
 app.set("views", path_1.default.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use((0, cors_1.default)({ credentials: true, origin: true })); // for testing purposes in development.
 //app.use(cookieParser());
-const storeSQL = new MySQLStore({ clearExpired: true, checkExpirationInterval: 28800000 }, promise_1.default.createPool({
+const storeSQL = new MySQLStore({
+    clearExpired: true,
+    checkExpirationInterval: 3600000,
+}, promise_1.default.createPool({
     host: "localhost",
     user: "root",
     database: `users`,
@@ -44,9 +49,9 @@ app.use((0, express_session_1.default)({
     rolling: true,
     cookie: {
         secure: false,
-        maxAge: 36000000,
+        maxAge: 3600000,
         sameSite: true,
-        httpOnly: false,
+        httpOnly: true,
     },
 }));
 app.use((0, morgan_1.default)("dev"));
@@ -59,8 +64,10 @@ app.use("/general", general_1.default);
 app.use("/loginPage", loginPage_1.default);
 // Angular Routers
 app.use("/login", login_1.default);
+app.use("/userData", userData_1.default);
 app.use("/userHome", userHome_1.default);
 app.use("/userReg", userReg_1.default);
+app.use("/logout", logout_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));

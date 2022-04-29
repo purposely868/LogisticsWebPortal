@@ -1,0 +1,12 @@
+footer {
+  position: absolute;
+  bottom: 0px;
+  background-color: var(--menu-bg-color);
+  padding: 10px;
+  border: 2px solid;
+  width: 100%;
+}
+
+footer > a {
+  color: var(--font-light-color);
+}

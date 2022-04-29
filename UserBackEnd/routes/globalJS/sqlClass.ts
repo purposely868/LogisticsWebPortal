@@ -4,13 +4,13 @@ import Hashing from "./hashing";
 
 interface requestBody {
   [index: string]: string | number | undefined;
-  username?: string;
-  firstN?: string;
-  lastN?: string;
-  email?: string;
+  userName?: string;
+  firstName?: string;
+  lastName?: string;
+  emaiemaill?: string;
   phone?: string;
-  d_l_p?: number;
   password?: string;
+  oszp?: number;
 }
 
 export default class sqlClass extends FrontValid {
@@ -23,7 +23,7 @@ export default class sqlClass extends FrontValid {
     const hashLogic = new Hashing();
 
     //console.log(user);
-    if (await this.userThere(user.username!)) {
+    if (!(await this.userThere(user.userName!))) {
       //console.log("in user register");
 
       // First hashing the inputted password.
@@ -37,29 +37,32 @@ export default class sqlClass extends FrontValid {
       const userInfo = await this._connection
         .execute(
           `INSERT INTO
-            users(Username, FirstN, LastN, Email, Phone, D_L_P,   Password)
+            users(userName, firstName, lastName, email, phone, oszp,   password)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
           [
-            user.username,
-            user.firstN,
-            user.lastN,
+            user.userName,
+            user.firstName,
+            user.lastName,
             user.email,
             user.phone,
-            user.d_l_p,
+            user.oszp,
             hashedPassword,
           ]
         )
-        .then(() => {
+        .then((resolve) => {
           //console.log("in user reg resolved");
 
           // we get the Registered users info and in here we close the connections.
-          return this.userInformation(user.username!);
+
+          return this.userInformation(user.userName!);
+        })
+        .catch((err) => {
+          return this.sqlErrorHandle(err);
         });
 
       // final return
       return userInfo;
     } else {
-      this._connection.end();
       return this.sqlErrorHandle(new Error("This user already exists"));
     }
   }
@@ -74,15 +77,15 @@ export default class sqlClass extends FrontValid {
     let updateValues = [];
     let reqKeys = Object.keys(user);
 
-    if (!(await this.userThere(user.username!))) {
+    if (await this.userThere(user.userName!)) {
       for (let i = 0; i < reqKeys.length; i++) {
         // console.log(reqKeys[i]);
-        if (reqKeys[i] != "username") {
+        if (reqKeys[i] != "userName") {
           if (reqKeys[i] === "password") {
-            // here we have to create the hash for the password if the admin wants to create a new one
+            // here we have to create the hash for the password if the admin wants to create a one
             hashedPassword = await hashLogic.passwordHash(user.password!);
 
-            queryUpdate += ` ${reqKeys[i]} = ?`;
+            queryUpdate += ` ${reqKeys[i]} = ?,`;
             updateValues.push(hashedPassword);
             continue;
           }
@@ -93,13 +96,19 @@ export default class sqlClass extends FrontValid {
         }
       }
 
-      queryUpdate += ` WHERE Username = "${user.username}"`;
+      queryUpdate += ` WHERE userName = "${user.userName}"`;
 
       const updateResult = await this._connection
         .execute(queryUpdate, updateValues)
         .then((resolve) => {
           console.log(resolve);
-          return resolve;
+          if ("affectedRows" in resolve[0]) {
+            if (resolve[0].affectedRows == 1) {
+              return "User Updated";
+            } else {
+              return this.sqlErrorHandle(resolve[0]);
+            }
+          }
         });
 
       return updateResult;
@@ -110,11 +119,18 @@ export default class sqlClass extends FrontValid {
 
   // DELETE =================
   async userDelete(username: string) {
-    if (!(await this.userThere(username!))) {
+    if (await this.userThere(username!)) {
       const userDelete = this._connection
         .execute("DELETE FROM users WHERE Username = ?", [username])
         .then((resolve) => {
-          return resolve;
+          console.log(resolve);
+          if ("affectedRows" in resolve[0]) {
+            if (resolve[0].affectedRows == 1) {
+              return "User Deleted";
+            } else {
+              return this.sqlErrorHandle(resolve[0]);
+            }
+          }
         });
       return userDelete;
     } else {
@@ -128,7 +144,7 @@ export default class sqlClass extends FrontValid {
     //Additionally this gets called when somebodey searches for an individual user
 
     // needs Username only
-
+    console.log(username);
     // IMPORTAN: i have to wait for the connection to establis because
     // .execute can only work if the connection is ready. It is not like .then
 
@@ -142,12 +158,12 @@ export default class sqlClass extends FrontValid {
     };
 
     const returnUserDetails: { [index: string]: any } = {
-      Username: "",
-      FirstN: "",
-      LastN: "",
-      Email: "",
-      Phone: "",
-      D_L_P: "",
+      userName: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      oszp: "",
     };
     // console.log(username + " " + "in userInformation");
     // query1 user Details =======
@@ -177,7 +193,7 @@ export default class sqlClass extends FrontValid {
     JOIN apprights as ar
     ON dlpr.AppRights = ar.Rights
     WHERE dlp.D_L_P_ID = ?`,
-        [returnUserDetails["D_L_P"]]
+        [returnUserDetails["oszp"]]
       )
       .then((resolve: any[]) => {
         // végig megy az összes soron úgy, hogy figyelembe veszi azt, ha az embernek több jogosultsága van.
@@ -200,7 +216,6 @@ export default class sqlClass extends FrontValid {
     // Viszont egy Reject esetén is azonnal leáll és Rejectként adja vissza az egészet az első Reject értékével
 
     // closing the pool after password and user is checked and user info is returned.
-    this._connection.end();
     return Promise.all([userDetails, dlpDetails]);
   }
 
@@ -237,7 +252,29 @@ export default class sqlClass extends FrontValid {
         return Promise.reject(new Error("Nincs Ilyen Opció"));
     }
     //console.log(queryResult);
-    this._connection.end();
     return queryResult[0];
+  }
+
+  async appInfo() {
+    const appInfo: { appName: string[]; appDescription: string[] } = {
+      appName: [],
+      appDescription: [],
+    };
+    return await this._connection
+      .execute("SELECT * FROM app")
+      .then((resolve) => {
+        console.log(resolve[0]);
+
+        for (const iterator of resolve[0] as mysql.RowDataPacket[]) {
+          appInfo.appName.push(iterator.AppName);
+          appInfo.appDescription.push(iterator.Discription);
+        }
+
+        return appInfo;
+      });
+  }
+
+  poolClose() {
+    this._connection.end();
   }
 }

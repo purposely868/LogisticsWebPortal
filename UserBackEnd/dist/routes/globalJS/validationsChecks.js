@@ -33,7 +33,7 @@ class FrontValid {
                 .execute(`SELECT Username FROM users WHERE EXISTS (SELECT Username FROM users WHERE Username = ?)`, [username])
                 .then((resolve) => {
                 // console.log(resolve);
-                return resolve[0].length === 0
+                return resolve[0].length !== 0
                     ? true
                     : false;
             });
@@ -45,7 +45,7 @@ class FrontValid {
             const hashLogic = new hashing_1.default();
             // Important Dont change sessions before checking the credentials!
             // main logic
-            if (!(yield this.userThere(username))) {
+            if (yield this.userThere(username)) {
                 const pass = yield this._connection
                     .execute(`SELECT users.Password FROM users WHERE users.Username = ?`, [
                     username,
@@ -82,7 +82,7 @@ class FrontValid {
     UserValidation() {
         return __awaiter(this, void 0, void 0, function* () {
             const userValid = [];
-            const validationUsers = yield this._connection
+            const validationUsers = this._connection
                 .execute(`SHOW COLUMNS FROM users`)
                 .then((resolve) => {
                 for (const iterator of resolve[0]) {
@@ -100,10 +100,9 @@ class FrontValid {
     // All possible OSZP's
     AllOszps() {
         return __awaiter(this, void 0, void 0, function* () {
-            const allPosszibleOSZP = yield this._connection
-                .execute(`SELECT 	COUNT(D_L_P_ID) as NumberOfDLPs
+            const allPosszibleOSZP = yield this._connection.execute(`SELECT 	* 
     FROM dep_lev_poz as dlp`);
-            return allPosszibleOSZP[0][0];
+            return allPosszibleOSZP[0];
         });
     }
     // Password validation options
@@ -117,7 +116,6 @@ class FrontValid {
     sqlErrorHandle(err) {
         // This is used to handle certain sql errors. Minimum checks, uniqueness and existense
         // Minimum length check is on the dbs-side
-        this._connection.end();
         console.log("here" + err.message);
         if (err.errno == 3819) {
             let indexLast = err.sqlMessage.lastIndexOf("_");

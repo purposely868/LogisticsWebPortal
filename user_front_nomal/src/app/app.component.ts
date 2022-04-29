@@ -1,36 +1,28 @@
-import { Component } from '@angular/core';
-import userInfo from '../userInfoInterface';
-import { LoginService } from './services/login.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { SessionStorageContentService } from './services/session-storage-content.service';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'user_front_nomal';
+export class AppComponent implements OnInit {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
+  constructor(
+    private contenSession: SessionStorageContentService,
 
-  userInfo!: userInfo;
+    private router: Router,
+    private modalService: NgbModal
+  ) {}
 
-  display: boolean[] = [true, false];
-
-  constructor(private login: LoginService) {}
-
-  loginHandle(result: boolean) {
-    if (result) {
-      this.display = [false, true];
-    }
+  public open(modal: any): void {
+    this.modalService.open(modal);
   }
 
-  userHome(username: string) {
-    this.login
-      .userHomeRequest(username)
-      .then((jsonRes) => {
-        console.log(jsonRes);
-        this.userInfo = jsonRes;
-      })
-      .catch((err) => {
-        console.log(err.info);
-      });
-  }
+  ngOnInit() {}
 }

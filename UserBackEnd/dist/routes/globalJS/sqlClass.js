@@ -23,7 +23,7 @@ class sqlClass extends validationsChecks_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             const hashLogic = new hashing_1.default();
             //console.log(user);
-            if (yield this.userThere(user.username)) {
+            if (!(yield this.userThere(user.userName))) {
                 //console.log("in user register");
                 // First hashing the inputted password.
                 const hashedPassword = yield hashLogic.passwordHash(user.password);
@@ -33,26 +33,28 @@ class sqlClass extends validationsChecks_1.default {
                 // Then put the user in the DBS
                 const userInfo = yield this._connection
                     .execute(`INSERT INTO
-            users(Username, FirstN, LastN, Email, Phone, D_L_P,   Password)
+            users(userName, firstName, lastName, email, phone, oszp,   password)
             VALUES (?, ?, ?, ?, ?, ?, ?)`, [
-                    user.username,
-                    user.firstN,
-                    user.lastN,
+                    user.userName,
+                    user.firstName,
+                    user.lastName,
                     user.email,
                     user.phone,
-                    user.d_l_p,
+                    user.oszp,
                     hashedPassword,
                 ])
-                    .then(() => {
+                    .then((resolve) => {
                     //console.log("in user reg resolved");
                     // we get the Registered users info and in here we close the connections.
-                    return this.userInformation(user.username);
+                    return this.userInformation(user.userName);
+                })
+                    .catch((err) => {
+                    return this.sqlErrorHandle(err);
                 });
                 // final return
                 return userInfo;
             }
             else {
-                this._connection.end();
                 return this.sqlErrorHandle(new Error("This user already exists"));
             }
         });
@@ -66,14 +68,14 @@ class sqlClass extends validationsChecks_1.default {
             let queryUpdate = "UPDATE users SET";
             let updateValues = [];
             let reqKeys = Object.keys(user);
-            if (!(yield this.userThere(user.username))) {
+            if (yield this.userThere(user.userName)) {
                 for (let i = 0; i < reqKeys.length; i++) {
                     // console.log(reqKeys[i]);
-                    if (reqKeys[i] != "username") {
+                    if (reqKeys[i] != "userName") {
                         if (reqKeys[i] === "password") {
-                            // here we have to create the hash for the password if the admin wants to create a new one
+                            // here we have to create the hash for the password if the admin wants to create a one
                             hashedPassword = yield hashLogic.passwordHash(user.password);
-                            queryUpdate += ` ${reqKeys[i]} = ?`;
+                            queryUpdate += ` ${reqKeys[i]} = ?,`;
                             updateValues.push(hashedPassword);
                             continue;
                         }
@@ -84,12 +86,19 @@ class sqlClass extends validationsChecks_1.default {
                             queryUpdate += ",";
                     }
                 }
-                queryUpdate += ` WHERE Username = "${user.username}"`;
+                queryUpdate += ` WHERE userName = "${user.userName}"`;
                 const updateResult = yield this._connection
                     .execute(queryUpdate, updateValues)
                     .then((resolve) => {
                     console.log(resolve);
-                    return resolve;
+                    if ("affectedRows" in resolve[0]) {
+                        if (resolve[0].affectedRows == 1) {
+                            return "User Updated";
+                        }
+                        else {
+                            return this.sqlErrorHandle(resolve[0]);
+                        }
+                    }
                 });
                 return updateResult;
             }
@@ -101,11 +110,19 @@ class sqlClass extends validationsChecks_1.default {
     // DELETE =================
     userDelete(username) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!(yield this.userThere(username))) {
+            if (yield this.userThere(username)) {
                 const userDelete = this._connection
                     .execute("DELETE FROM users WHERE Username = ?", [username])
                     .then((resolve) => {
-                    return resolve;
+                    console.log(resolve);
+                    if ("affectedRows" in resolve[0]) {
+                        if (resolve[0].affectedRows == 1) {
+                            return "User Deleted";
+                        }
+                        else {
+                            return this.sqlErrorHandle(resolve[0]);
+                        }
+                    }
                 });
                 return userDelete;
             }
@@ -120,6 +137,7 @@ class sqlClass extends validationsChecks_1.default {
             //This gets requested after submitting the registration and updateing a user and if every thing went ok.
             //Additionally this gets called when somebodey searches for an individual user
             // needs Username only
+            console.log(username);
             // IMPORTAN: i have to wait for the connection to establis because
             // .execute can only work if the connection is ready. It is not like .then
             const returnOszpInfo = {
@@ -131,12 +149,12 @@ class sqlClass extends validationsChecks_1.default {
                 Rights: [],
             };
             const returnUserDetails = {
-                Username: "",
-                FirstN: "",
-                LastN: "",
-                Email: "",
-                Phone: "",
-                D_L_P: "",
+                userName: "",
+                firstName: "",
+                lastName: "",
+                email: "",
+                phone: "",
+                oszp: "",
             };
             // console.log(username + " " + "in userInformation");
             // query1 user Details =======
@@ -160,7 +178,7 @@ class sqlClass extends validationsChecks_1.default {
     ON dlp.D_L_P_ID = dlpr.D_L_P
     JOIN apprights as ar
     ON dlpr.AppRights = ar.Rights
-    WHERE dlp.D_L_P_ID = ?`, [returnUserDetails["D_L_P"]])
+    WHERE dlp.D_L_P_ID = ?`, [returnUserDetails["oszp"]])
                 .then((resolve) => {
                 // végig megy az összes soron úgy, hogy figyelembe veszi azt, ha az embernek több jogosultsága van.
                 for (let i = 0; i < resolve[0].length; i++) {
@@ -178,7 +196,6 @@ class sqlClass extends validationsChecks_1.default {
             // Akkor lessz sikeres ha minden Promise Resolved.
             // Viszont egy Reject esetén is azonnal leáll és Rejectként adja vissza az egészet az első Reject értékével
             // closing the pool after password and user is checked and user info is returned.
-            this._connection.end();
             return Promise.all([userDetails, dlpDetails]);
         });
     }
@@ -211,9 +228,29 @@ class sqlClass extends validationsChecks_1.default {
                     return Promise.reject(new Error("Nincs Ilyen Opció"));
             }
             //console.log(queryResult);
-            this._connection.end();
             return queryResult[0];
         });
+    }
+    appInfo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const appInfo = {
+                appName: [],
+                appDescription: [],
+            };
+            return yield this._connection
+                .execute("SELECT * FROM app")
+                .then((resolve) => {
+                console.log(resolve[0]);
+                for (const iterator of resolve[0]) {
+                    appInfo.appName.push(iterator.AppName);
+                    appInfo.appDescription.push(iterator.Discription);
+                }
+                return appInfo;
+            });
+        });
+    }
+    poolClose() {
+        this._connection.end();
     }
 }
 exports.default = sqlClass;

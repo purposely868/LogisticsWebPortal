@@ -1,0 +1,9 @@
+<section class="container">
+    <div class="row">
+        <app-app-spec-menu class="col-md-3" (selectedView)="selectedMode($event)"></app-app-spec-menu>
+        <main class="col-md-6">
+            <app-user-registration [selectedMethode]="selected"></app-user-registration>
+        </main>
+        <app-app-menu class="col-md-3"></app-app-menu>
+    </div>
+</section>

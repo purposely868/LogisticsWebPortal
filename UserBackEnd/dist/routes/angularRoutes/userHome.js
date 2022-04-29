@@ -13,11 +13,13 @@ router.get("/", (req, res) => {
     sqlCC
         .UserHomeGeneralContent()
         .then((resolve) => {
+        sqlCC.poolClose();
         //console.log(resolve);
         res.json({ error: false, info: resolve });
     })
         .catch((err) => {
         //console.log(err);
+        sqlCC.poolClose();
         res.json({ error: true, info: err });
     });
 });
