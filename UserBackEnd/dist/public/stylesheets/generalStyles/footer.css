@@ -1,0 +1,11 @@
+@import "variables.css";
+
+footer {
+  background-color: var(--menu-bg-color);
+  padding: 10px;
+  border: 2px solid;
+}
+
+footer > a {
+  color: var(--font-light-color);
+}

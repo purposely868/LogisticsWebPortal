@@ -1,0 +1,12 @@
+.ng-valid:not(form):not(input[type="checkbox"]) {
+  border-left: 5px solid green;
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid red;
+}
+
+.errMessage {
+  font-weight: bold;
+  color: rgb(214, 3, 3);
+}

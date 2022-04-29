@@ -1,0 +1,8 @@
+<div class="list-group">
+    <div class="list-group-item fw-bold bg-primary text-light">
+        User Management
+    </div>
+    <a [ngClass]="[selectedCSS[0], 'list-group-item', 'list-group-item-action']" (click)="selection(0)">Register User</a>
+    <a [ngClass]="[selectedCSS[1], 'list-group-item', 'list-group-item-action']" (click)="selection(1)">Update User</a>
+    <a [ngClass]="[selectedCSS[2], 'list-group-item', 'list-group-item-action']" (click)="selection(2)">Delete User</a>
+</div>

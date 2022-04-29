@@ -1,0 +1,18 @@
+<!-- This is for the news little section in the middle -->
+<div class="news">
+    <div class="newsText">
+        <h2>
+            <%= newsObject.title %>
+        </h2>
+        <p>
+            <%= newsObject.paragraph %>
+        </p>
+    </div>
+    <div class="newsImage">
+        <img src="images/newsImages/<%=newsObject.image %>" alt="images/newsImages/<%= newsObject.image %>" width="50px" height="50px">
+
+        <a href="https://www.flaticon.com/free-icons/<%= newsObject.atribution[0] %>" title="<%= newsObject.atribution[1] %>">
+            <%= newsObject.atribution[2] %> icons created by <%= newsObject.atribution[3] %> - Flaticon
+        </a>
+    </div>
+</div>
