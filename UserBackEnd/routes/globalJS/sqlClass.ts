@@ -171,7 +171,7 @@ export default class sqlClass extends FrontValid {
       .execute(`SELECT * FROM users WHERE Username = ?`, [username])
       .then((resolve) => {
         for (const key in (resolve[0] as mysql.RowDataPacket[])[0]) {
-          if (key !== "Password") {
+          if (key !== "password") {
             returnUserDetails[key] = (resolve[0] as mysql.RowDataPacket[])[0][
               key
             ];
