@@ -53,7 +53,7 @@ CREATE TABLE d_l_p_rights (
 
 CREATE TABLE users (
 	userName varchar(10),
-    firstname varchar(15) NOT NULL,
+    firstName varchar(15) NOT NULL,
     lastName varchar(15) NOT NULL,
     email varchar(30) NOT NULL UNIQUE,
     phone varchar(20),
