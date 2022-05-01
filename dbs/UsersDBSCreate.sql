@@ -80,6 +80,12 @@ CREATE TABLE passwordRules (
     CONSTRAINT PK_password PRIMARY KEY(minLength, maxLength, minUppercase, minNumbers, minSymbols)
 );
 
+CREATE TABLE sessions (
+	session_id varchar(255),
+    expires int unsigned NOT NULL,
+    data mediumtext,
+    PRIMARY KEY(session_id)
+);
 
 
 INSERT INTO app (AppName, Discription)
