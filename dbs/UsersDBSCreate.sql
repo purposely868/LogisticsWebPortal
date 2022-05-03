@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS users;
+
 CREATE TABLE app (
 	AppName varchar(20),
     Discription varchar(50),
