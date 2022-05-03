@@ -1,7 +1,8 @@
 -- These are the quires and default data for the content dabase.
 
 -- CREATE DATABASE content;
-
+-- Egy Példa. Név: Bob1 Jelszó: asd12345
+-- Majdnem mindenkinek ugyan az a jelszava.
 
 CREATE TABLE OutsideIndexPageInfo (
 	indexID tinyint AUTO_INCREMENT,
