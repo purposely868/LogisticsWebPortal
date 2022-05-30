@@ -35,7 +35,6 @@ const storeSQL = new MySQLStore({
     host: "localhost",
     user: "root",
     database: `users`,
-    password: "1asxqklp546",
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
