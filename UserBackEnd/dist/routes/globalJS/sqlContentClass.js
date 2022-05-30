@@ -20,7 +20,6 @@ class sqlContentClass {
             host: "localhost",
             user: "root",
             database: "content",
-            password: "1asxqklp546",
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0,
