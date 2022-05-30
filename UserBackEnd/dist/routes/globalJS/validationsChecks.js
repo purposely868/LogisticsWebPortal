@@ -20,7 +20,6 @@ class FrontValid {
             host: "localhost",
             user: "root",
             database: `${dbName}`,
-            password: "1asxqklp546",
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0,
